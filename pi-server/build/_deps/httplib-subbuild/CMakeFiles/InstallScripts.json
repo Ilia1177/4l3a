@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"/Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-subbuild/cmake_install.cmake"
+	],
+	"Parallel" : false
+}
