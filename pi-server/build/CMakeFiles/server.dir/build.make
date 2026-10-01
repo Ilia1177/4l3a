@@ -53,10 +53,10 @@ RM = /opt/homebrew/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/ilia/Documents/pi-serv/pi-server
+CMAKE_SOURCE_DIR = /Users/ilia/Documents/4l3a/pi-server
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/ilia/Documents/pi-serv/pi-server/build
+CMAKE_BINARY_DIR = /Users/ilia/Documents/4l3a/pi-server/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/server.dir/depend.make
@@ -73,28 +73,94 @@ CMakeFiles/server.dir/codegen:
 .PHONY : CMakeFiles/server.dir/codegen
 
 CMakeFiles/server.dir/src/main.cpp.o: CMakeFiles/server.dir/flags.make
-CMakeFiles/server.dir/src/main.cpp.o: /Users/ilia/Documents/pi-serv/pi-server/src/main.cpp
+CMakeFiles/server.dir/src/main.cpp.o: /Users/ilia/Documents/4l3a/pi-server/src/main.cpp
 CMakeFiles/server.dir/src/main.cpp.o: CMakeFiles/server.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/ilia/Documents/pi-serv/pi-server/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/server.dir/src/main.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/server.dir/src/main.cpp.o -MF CMakeFiles/server.dir/src/main.cpp.o.d -o CMakeFiles/server.dir/src/main.cpp.o -c /Users/ilia/Documents/pi-serv/pi-server/src/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/ilia/Documents/4l3a/pi-server/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/server.dir/src/main.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/server.dir/src/main.cpp.o -MF CMakeFiles/server.dir/src/main.cpp.o.d -o CMakeFiles/server.dir/src/main.cpp.o -c /Users/ilia/Documents/4l3a/pi-server/src/main.cpp
 
 CMakeFiles/server.dir/src/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/server.dir/src/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/ilia/Documents/pi-serv/pi-server/src/main.cpp > CMakeFiles/server.dir/src/main.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/ilia/Documents/4l3a/pi-server/src/main.cpp > CMakeFiles/server.dir/src/main.cpp.i
 
 CMakeFiles/server.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/server.dir/src/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/ilia/Documents/pi-serv/pi-server/src/main.cpp -o CMakeFiles/server.dir/src/main.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/ilia/Documents/4l3a/pi-server/src/main.cpp -o CMakeFiles/server.dir/src/main.cpp.s
+
+CMakeFiles/server.dir/src/client/client.cpp.o: CMakeFiles/server.dir/flags.make
+CMakeFiles/server.dir/src/client/client.cpp.o: /Users/ilia/Documents/4l3a/pi-server/src/client/client.cpp
+CMakeFiles/server.dir/src/client/client.cpp.o: CMakeFiles/server.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/ilia/Documents/4l3a/pi-server/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/server.dir/src/client/client.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/server.dir/src/client/client.cpp.o -MF CMakeFiles/server.dir/src/client/client.cpp.o.d -o CMakeFiles/server.dir/src/client/client.cpp.o -c /Users/ilia/Documents/4l3a/pi-server/src/client/client.cpp
+
+CMakeFiles/server.dir/src/client/client.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/server.dir/src/client/client.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/ilia/Documents/4l3a/pi-server/src/client/client.cpp > CMakeFiles/server.dir/src/client/client.cpp.i
+
+CMakeFiles/server.dir/src/client/client.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/server.dir/src/client/client.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/ilia/Documents/4l3a/pi-server/src/client/client.cpp -o CMakeFiles/server.dir/src/client/client.cpp.s
+
+CMakeFiles/server.dir/src/minitel/HardwareSim.cpp.o: CMakeFiles/server.dir/flags.make
+CMakeFiles/server.dir/src/minitel/HardwareSim.cpp.o: /Users/ilia/Documents/4l3a/pi-server/src/minitel/HardwareSim.cpp
+CMakeFiles/server.dir/src/minitel/HardwareSim.cpp.o: CMakeFiles/server.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/ilia/Documents/4l3a/pi-server/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/server.dir/src/minitel/HardwareSim.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/server.dir/src/minitel/HardwareSim.cpp.o -MF CMakeFiles/server.dir/src/minitel/HardwareSim.cpp.o.d -o CMakeFiles/server.dir/src/minitel/HardwareSim.cpp.o -c /Users/ilia/Documents/4l3a/pi-server/src/minitel/HardwareSim.cpp
+
+CMakeFiles/server.dir/src/minitel/HardwareSim.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/server.dir/src/minitel/HardwareSim.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/ilia/Documents/4l3a/pi-server/src/minitel/HardwareSim.cpp > CMakeFiles/server.dir/src/minitel/HardwareSim.cpp.i
+
+CMakeFiles/server.dir/src/minitel/HardwareSim.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/server.dir/src/minitel/HardwareSim.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/ilia/Documents/4l3a/pi-server/src/minitel/HardwareSim.cpp -o CMakeFiles/server.dir/src/minitel/HardwareSim.cpp.s
+
+CMakeFiles/server.dir/src/minitel/Minitel1B_Hard.cpp.o: CMakeFiles/server.dir/flags.make
+CMakeFiles/server.dir/src/minitel/Minitel1B_Hard.cpp.o: /Users/ilia/Documents/4l3a/pi-server/src/minitel/Minitel1B_Hard.cpp
+CMakeFiles/server.dir/src/minitel/Minitel1B_Hard.cpp.o: CMakeFiles/server.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/ilia/Documents/4l3a/pi-server/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/server.dir/src/minitel/Minitel1B_Hard.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/server.dir/src/minitel/Minitel1B_Hard.cpp.o -MF CMakeFiles/server.dir/src/minitel/Minitel1B_Hard.cpp.o.d -o CMakeFiles/server.dir/src/minitel/Minitel1B_Hard.cpp.o -c /Users/ilia/Documents/4l3a/pi-server/src/minitel/Minitel1B_Hard.cpp
+
+CMakeFiles/server.dir/src/minitel/Minitel1B_Hard.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/server.dir/src/minitel/Minitel1B_Hard.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/ilia/Documents/4l3a/pi-server/src/minitel/Minitel1B_Hard.cpp > CMakeFiles/server.dir/src/minitel/Minitel1B_Hard.cpp.i
+
+CMakeFiles/server.dir/src/minitel/Minitel1B_Hard.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/server.dir/src/minitel/Minitel1B_Hard.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/ilia/Documents/4l3a/pi-server/src/minitel/Minitel1B_Hard.cpp -o CMakeFiles/server.dir/src/minitel/Minitel1B_Hard.cpp.s
+
+CMakeFiles/server.dir/src/utils/utils.cpp.o: CMakeFiles/server.dir/flags.make
+CMakeFiles/server.dir/src/utils/utils.cpp.o: /Users/ilia/Documents/4l3a/pi-server/src/utils/utils.cpp
+CMakeFiles/server.dir/src/utils/utils.cpp.o: CMakeFiles/server.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/ilia/Documents/4l3a/pi-server/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/server.dir/src/utils/utils.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/server.dir/src/utils/utils.cpp.o -MF CMakeFiles/server.dir/src/utils/utils.cpp.o.d -o CMakeFiles/server.dir/src/utils/utils.cpp.o -c /Users/ilia/Documents/4l3a/pi-server/src/utils/utils.cpp
+
+CMakeFiles/server.dir/src/utils/utils.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/server.dir/src/utils/utils.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/ilia/Documents/4l3a/pi-server/src/utils/utils.cpp > CMakeFiles/server.dir/src/utils/utils.cpp.i
+
+CMakeFiles/server.dir/src/utils/utils.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/server.dir/src/utils/utils.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/ilia/Documents/4l3a/pi-server/src/utils/utils.cpp -o CMakeFiles/server.dir/src/utils/utils.cpp.s
 
 # Object files for target server
 server_OBJECTS = \
-"CMakeFiles/server.dir/src/main.cpp.o"
+"CMakeFiles/server.dir/src/main.cpp.o" \
+"CMakeFiles/server.dir/src/client/client.cpp.o" \
+"CMakeFiles/server.dir/src/minitel/HardwareSim.cpp.o" \
+"CMakeFiles/server.dir/src/minitel/Minitel1B_Hard.cpp.o" \
+"CMakeFiles/server.dir/src/utils/utils.cpp.o"
 
 # External object files for target server
 server_EXTERNAL_OBJECTS =
 
 server: CMakeFiles/server.dir/src/main.cpp.o
+server: CMakeFiles/server.dir/src/client/client.cpp.o
+server: CMakeFiles/server.dir/src/minitel/HardwareSim.cpp.o
+server: CMakeFiles/server.dir/src/minitel/Minitel1B_Hard.cpp.o
+server: CMakeFiles/server.dir/src/utils/utils.cpp.o
 server: CMakeFiles/server.dir/build.make
+server: /opt/homebrew/lib/libpng.dylib
+server: /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib/libz.tbd
 server: /opt/homebrew/Cellar/brotli/1.2.0/lib/libbrotlicommon.dylib
 server: /opt/homebrew/Cellar/brotli/1.2.0/lib/libbrotlienc.dylib
 server: /opt/homebrew/Cellar/brotli/1.2.0/lib/libbrotlidec.dylib
@@ -102,7 +168,7 @@ server: /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib/libz.tbd
 server: /opt/homebrew/Cellar/openssl@3/3.6.3/lib/libssl.dylib
 server: /opt/homebrew/Cellar/openssl@3/3.6.3/lib/libcrypto.dylib
 server: CMakeFiles/server.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/ilia/Documents/pi-serv/pi-server/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable server"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/ilia/Documents/4l3a/pi-server/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable server"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/server.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -114,6 +180,6 @@ CMakeFiles/server.dir/clean:
 .PHONY : CMakeFiles/server.dir/clean
 
 CMakeFiles/server.dir/depend:
-	cd /Users/ilia/Documents/pi-serv/pi-server/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/ilia/Documents/pi-serv/pi-server /Users/ilia/Documents/pi-serv/pi-server /Users/ilia/Documents/pi-serv/pi-server/build /Users/ilia/Documents/pi-serv/pi-server/build /Users/ilia/Documents/pi-serv/pi-server/build/CMakeFiles/server.dir/DependInfo.cmake "--color=$(COLOR)" server
+	cd /Users/ilia/Documents/4l3a/pi-server/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/ilia/Documents/4l3a/pi-server /Users/ilia/Documents/4l3a/pi-server /Users/ilia/Documents/4l3a/pi-server/build /Users/ilia/Documents/4l3a/pi-server/build /Users/ilia/Documents/4l3a/pi-server/build/CMakeFiles/server.dir/DependInfo.cmake "--color=$(COLOR)" server
 .PHONY : CMakeFiles/server.dir/depend
 

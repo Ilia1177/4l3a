@@ -16,11 +16,20 @@ FetchContent_Declare(
   GIT_TAG v0.15.3
 )
 FetchContent_MakeAvailable(httplib)
-
+find_package(PNG REQUIRED)
 find_package(Threads REQUIRED)
-
-add_executable(server src/main.cpp)
-target_link_libraries(server PRIVATE httplib::httplib Threads::Threads)
-
+add_executable(server
+    src/main.cpp
+    src/client/client.cpp
+	src/minitel/HardwareSim.cpp
+	src/minitel/Minitel1B_Hard.cpp
+    # src/server/server.cpp
+    src/utils/utils.cpp
+)
+target_include_directories(server PRIVATE
+    ${CMAKE_SOURCE_DIR}/inc
+)
+# target_link_libraries(server PRIVATE inc httplib::httplib Threads::Threads)
+target_link_libraries(server PRIVATE PNG::PNG httplib::httplib Threads::Threads)
 # Copy the public/ folder next to the binary so relative paths just work
 file(COPY ${CMAKE_SOURCE_DIR}/public DESTINATION ${CMAKE_BINARY_DIR})

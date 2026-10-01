@@ -57,10 +57,10 @@ RM = /opt/homebrew/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/ilia/Documents/pi-serv/pi-server
+CMAKE_SOURCE_DIR = /Users/ilia/Documents/4l3a/pi-server
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/ilia/Documents/pi-serv/pi-server/build
+CMAKE_BINARY_DIR = /Users/ilia/Documents/4l3a/pi-server/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -132,9 +132,9 @@ install/strip/fast: preinstall/fast
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/ilia/Documents/pi-serv/pi-server/build/CMakeFiles /Users/ilia/Documents/pi-serv/pi-server/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/ilia/Documents/4l3a/pi-server/build/CMakeFiles /Users/ilia/Documents/4l3a/pi-server/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/ilia/Documents/pi-serv/pi-server/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/ilia/Documents/4l3a/pi-server/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -174,6 +174,30 @@ server/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/build
 .PHONY : server/fast
 
+src/client/client.o: src/client/client.cpp.o
+.PHONY : src/client/client.o
+
+# target to build an object file
+src/client/client.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/src/client/client.cpp.o
+.PHONY : src/client/client.cpp.o
+
+src/client/client.i: src/client/client.cpp.i
+.PHONY : src/client/client.i
+
+# target to preprocess a source file
+src/client/client.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/src/client/client.cpp.i
+.PHONY : src/client/client.cpp.i
+
+src/client/client.s: src/client/client.cpp.s
+.PHONY : src/client/client.s
+
+# target to generate assembly for a file
+src/client/client.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/src/client/client.cpp.s
+.PHONY : src/client/client.cpp.s
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -198,6 +222,78 @@ src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/minitel/HardwareSim.o: src/minitel/HardwareSim.cpp.o
+.PHONY : src/minitel/HardwareSim.o
+
+# target to build an object file
+src/minitel/HardwareSim.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/src/minitel/HardwareSim.cpp.o
+.PHONY : src/minitel/HardwareSim.cpp.o
+
+src/minitel/HardwareSim.i: src/minitel/HardwareSim.cpp.i
+.PHONY : src/minitel/HardwareSim.i
+
+# target to preprocess a source file
+src/minitel/HardwareSim.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/src/minitel/HardwareSim.cpp.i
+.PHONY : src/minitel/HardwareSim.cpp.i
+
+src/minitel/HardwareSim.s: src/minitel/HardwareSim.cpp.s
+.PHONY : src/minitel/HardwareSim.s
+
+# target to generate assembly for a file
+src/minitel/HardwareSim.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/src/minitel/HardwareSim.cpp.s
+.PHONY : src/minitel/HardwareSim.cpp.s
+
+src/minitel/Minitel1B_Hard.o: src/minitel/Minitel1B_Hard.cpp.o
+.PHONY : src/minitel/Minitel1B_Hard.o
+
+# target to build an object file
+src/minitel/Minitel1B_Hard.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/src/minitel/Minitel1B_Hard.cpp.o
+.PHONY : src/minitel/Minitel1B_Hard.cpp.o
+
+src/minitel/Minitel1B_Hard.i: src/minitel/Minitel1B_Hard.cpp.i
+.PHONY : src/minitel/Minitel1B_Hard.i
+
+# target to preprocess a source file
+src/minitel/Minitel1B_Hard.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/src/minitel/Minitel1B_Hard.cpp.i
+.PHONY : src/minitel/Minitel1B_Hard.cpp.i
+
+src/minitel/Minitel1B_Hard.s: src/minitel/Minitel1B_Hard.cpp.s
+.PHONY : src/minitel/Minitel1B_Hard.s
+
+# target to generate assembly for a file
+src/minitel/Minitel1B_Hard.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/src/minitel/Minitel1B_Hard.cpp.s
+.PHONY : src/minitel/Minitel1B_Hard.cpp.s
+
+src/utils/utils.o: src/utils/utils.cpp.o
+.PHONY : src/utils/utils.o
+
+# target to build an object file
+src/utils/utils.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/src/utils/utils.cpp.o
+.PHONY : src/utils/utils.cpp.o
+
+src/utils/utils.i: src/utils/utils.cpp.i
+.PHONY : src/utils/utils.i
+
+# target to preprocess a source file
+src/utils/utils.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/src/utils/utils.cpp.i
+.PHONY : src/utils/utils.cpp.i
+
+src/utils/utils.s: src/utils/utils.cpp.s
+.PHONY : src/utils/utils.s
+
+# target to generate assembly for a file
+src/utils/utils.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/src/utils/utils.cpp.s
+.PHONY : src/utils/utils.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -211,9 +307,21 @@ help:
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... server"
+	@echo "... src/client/client.o"
+	@echo "... src/client/client.i"
+	@echo "... src/client/client.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/minitel/HardwareSim.o"
+	@echo "... src/minitel/HardwareSim.i"
+	@echo "... src/minitel/HardwareSim.s"
+	@echo "... src/minitel/Minitel1B_Hard.o"
+	@echo "... src/minitel/Minitel1B_Hard.i"
+	@echo "... src/minitel/Minitel1B_Hard.s"
+	@echo "... src/utils/utils.o"
+	@echo "... src/utils/utils.i"
+	@echo "... src/utils/utils.s"
 .PHONY : help
 
 

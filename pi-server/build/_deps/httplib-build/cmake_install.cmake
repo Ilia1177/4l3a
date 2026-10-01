@@ -1,4 +1,4 @@
-# Install script for directory: /Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-src
+# Install script for directory: /Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -38,14 +38,14 @@ if(NOT DEFINED CMAKE_OBJDUMP)
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include" TYPE FILE FILES "/Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-src/httplib.h")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include" TYPE FILE FILES "/Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-src/httplib.h")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/httplib" TYPE FILE FILES
-    "/Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-build/httplibConfig.cmake"
-    "/Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-build/httplibConfigVersion.cmake"
-    "/Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-src/cmake/FindBrotli.cmake"
+    "/Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-build/httplibConfig.cmake"
+    "/Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-build/httplibConfigVersion.cmake"
+    "/Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-src/cmake/FindBrotli.cmake"
     )
 endif()
 
@@ -53,7 +53,7 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/cmake/httplib/httplibTargets.cmake")
     file(DIFFERENT _cmake_export_file_changed FILES
          "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/cmake/httplib/httplibTargets.cmake"
-         "/Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-build/CMakeFiles/Export/0c9c21465635b294edae171b02b1b3b9/httplibTargets.cmake")
+         "/Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-build/CMakeFiles/Export/0c9c21465635b294edae171b02b1b3b9/httplibTargets.cmake")
     if(_cmake_export_file_changed)
       file(GLOB _cmake_old_config_files "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/cmake/httplib/httplibTargets-*.cmake")
       if(_cmake_old_config_files)
@@ -66,12 +66,12 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
     endif()
     unset(_cmake_export_file_changed)
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/httplib" TYPE FILE FILES "/Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-build/CMakeFiles/Export/0c9c21465635b294edae171b02b1b3b9/httplibTargets.cmake")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/httplib" TYPE FILE FILES "/Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-build/CMakeFiles/Export/0c9c21465635b294edae171b02b1b3b9/httplibTargets.cmake")
 endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
 if(CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "/Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-build/install_local_manifest.txt"
+  file(WRITE "/Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-build/install_local_manifest.txt"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()

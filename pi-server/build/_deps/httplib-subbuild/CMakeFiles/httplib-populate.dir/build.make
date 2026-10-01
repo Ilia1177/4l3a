@@ -53,10 +53,10 @@ RM = /opt/homebrew/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-subbuild
+CMAKE_SOURCE_DIR = /Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-subbuild
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-subbuild
+CMAKE_BINARY_DIR = /Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-subbuild
 
 # Utility rule file for httplib-populate.
 
@@ -77,60 +77,60 @@ CMakeFiles/httplib-populate-complete: httplib-populate-prefix/src/httplib-popula
 CMakeFiles/httplib-populate-complete: httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-build
 CMakeFiles/httplib-populate-complete: httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-install
 CMakeFiles/httplib-populate-complete: httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-test
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-subbuild/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Completed 'httplib-populate'"
-	/opt/homebrew/bin/cmake -E make_directory /Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-subbuild/CMakeFiles
-	/opt/homebrew/bin/cmake -E touch /Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-subbuild/CMakeFiles/httplib-populate-complete
-	/opt/homebrew/bin/cmake -E touch /Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-subbuild/httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-done
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-subbuild/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Completed 'httplib-populate'"
+	/opt/homebrew/bin/cmake -E make_directory /Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-subbuild/CMakeFiles
+	/opt/homebrew/bin/cmake -E touch /Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-subbuild/CMakeFiles/httplib-populate-complete
+	/opt/homebrew/bin/cmake -E touch /Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-subbuild/httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-done
 
 httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-update:
 .PHONY : httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-update
 
 httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-build: httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-configure
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-subbuild/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "No build step for 'httplib-populate'"
-	cd /Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-build && /opt/homebrew/bin/cmake -E echo_append
-	cd /Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-build && /opt/homebrew/bin/cmake -E touch /Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-subbuild/httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-subbuild/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "No build step for 'httplib-populate'"
+	cd /Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-build && /opt/homebrew/bin/cmake -E echo_append
+	cd /Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-build && /opt/homebrew/bin/cmake -E touch /Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-subbuild/httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-build
 
 httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-configure: httplib-populate-prefix/tmp/httplib-populate-cfgcmd.txt
 httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-configure: httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-patch
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-subbuild/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "No configure step for 'httplib-populate'"
-	cd /Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-build && /opt/homebrew/bin/cmake -E echo_append
-	cd /Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-build && /opt/homebrew/bin/cmake -E touch /Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-subbuild/httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-configure
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-subbuild/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "No configure step for 'httplib-populate'"
+	cd /Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-build && /opt/homebrew/bin/cmake -E echo_append
+	cd /Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-build && /opt/homebrew/bin/cmake -E touch /Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-subbuild/httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-configure
 
 httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-download: httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-gitinfo.txt
 httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-download: httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-mkdir
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-subbuild/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Performing download step (git clone) for 'httplib-populate'"
-	cd /Users/ilia/Documents/pi-serv/pi-server/build/_deps && /opt/homebrew/bin/cmake -DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE -P /Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-subbuild/httplib-populate-prefix/tmp/httplib-populate-gitclone.cmake
-	cd /Users/ilia/Documents/pi-serv/pi-server/build/_deps && /opt/homebrew/bin/cmake -E touch /Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-subbuild/httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-download
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-subbuild/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Performing download step (git clone) for 'httplib-populate'"
+	cd /Users/ilia/Documents/4l3a/pi-server/build/_deps && /opt/homebrew/bin/cmake -DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE -P /Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-subbuild/httplib-populate-prefix/tmp/httplib-populate-gitclone.cmake
+	cd /Users/ilia/Documents/4l3a/pi-server/build/_deps && /opt/homebrew/bin/cmake -E touch /Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-subbuild/httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-download
 
 httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-install: httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-subbuild/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "No install step for 'httplib-populate'"
-	cd /Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-build && /opt/homebrew/bin/cmake -E echo_append
-	cd /Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-build && /opt/homebrew/bin/cmake -E touch /Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-subbuild/httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-install
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-subbuild/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "No install step for 'httplib-populate'"
+	cd /Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-build && /opt/homebrew/bin/cmake -E echo_append
+	cd /Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-build && /opt/homebrew/bin/cmake -E touch /Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-subbuild/httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-install
 
 httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-mkdir:
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-subbuild/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Creating directories for 'httplib-populate'"
-	/opt/homebrew/bin/cmake -Dcfgdir= -P /Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-subbuild/httplib-populate-prefix/tmp/httplib-populate-mkdirs.cmake
-	/opt/homebrew/bin/cmake -E touch /Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-subbuild/httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-mkdir
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-subbuild/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Creating directories for 'httplib-populate'"
+	/opt/homebrew/bin/cmake -Dcfgdir= -P /Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-subbuild/httplib-populate-prefix/tmp/httplib-populate-mkdirs.cmake
+	/opt/homebrew/bin/cmake -E touch /Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-subbuild/httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-mkdir
 
 httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-patch: httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-patch-info.txt
 httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-patch: httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-update
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-subbuild/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "No patch step for 'httplib-populate'"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-subbuild/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "No patch step for 'httplib-populate'"
 	/opt/homebrew/bin/cmake -E echo_append
-	/opt/homebrew/bin/cmake -E touch /Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-subbuild/httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-patch
+	/opt/homebrew/bin/cmake -E touch /Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-subbuild/httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-patch
 
 httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-update:
 .PHONY : httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-update
 
 httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-test: httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-install
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-subbuild/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "No test step for 'httplib-populate'"
-	cd /Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-build && /opt/homebrew/bin/cmake -E echo_append
-	cd /Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-build && /opt/homebrew/bin/cmake -E touch /Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-subbuild/httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-test
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-subbuild/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "No test step for 'httplib-populate'"
+	cd /Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-build && /opt/homebrew/bin/cmake -E echo_append
+	cd /Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-build && /opt/homebrew/bin/cmake -E touch /Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-subbuild/httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-test
 
 httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-update: httplib-populate-prefix/tmp/httplib-populate-gitupdate.cmake
 httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-update: httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-update-info.txt
 httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-update: httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-download
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-subbuild/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Performing update step for 'httplib-populate'"
-	cd /Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-src && /opt/homebrew/bin/cmake -Dcan_fetch=YES -DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE -P /Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-subbuild/httplib-populate-prefix/tmp/httplib-populate-gitupdate.cmake
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-subbuild/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Performing update step for 'httplib-populate'"
+	cd /Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-src && /opt/homebrew/bin/cmake -Dcan_fetch=YES -DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE -P /Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-subbuild/httplib-populate-prefix/tmp/httplib-populate-gitupdate.cmake
 
 CMakeFiles/httplib-populate.dir/codegen:
 .PHONY : CMakeFiles/httplib-populate.dir/codegen
@@ -157,6 +157,6 @@ CMakeFiles/httplib-populate.dir/clean:
 .PHONY : CMakeFiles/httplib-populate.dir/clean
 
 CMakeFiles/httplib-populate.dir/depend:
-	cd /Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-subbuild && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-subbuild /Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-subbuild /Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-subbuild /Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-subbuild /Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-subbuild/CMakeFiles/httplib-populate.dir/DependInfo.cmake "--color=$(COLOR)" httplib-populate
+	cd /Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-subbuild && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-subbuild /Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-subbuild /Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-subbuild /Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-subbuild /Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-subbuild/CMakeFiles/httplib-populate.dir/DependInfo.cmake "--color=$(COLOR)" httplib-populate
 .PHONY : CMakeFiles/httplib-populate.dir/depend
 

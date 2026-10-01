@@ -9,6 +9,14 @@
 #include <mutex>
 #include <sstream>
 
+#include "Minitel1B_Hard.h"
+#include "HardwareSim.h"
+#include "Client.hpp"
+#include <csignal>
+
+
+
+volatile sig_atomic_t g_signal = 0;
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
@@ -41,7 +49,7 @@ static std::atomic<uint64_t> g_visit_count{0};
 // Keep it fast (or dispatch to a background thread) since it runs inline
 // with the request.
 // ---------------------------------------------------------------------------
-static void onClientVisit(const httplib::Request& req) {
+static void onClientVisit(const httplib::Request& req, Client* cli) {
     uint64_t count = ++g_visit_count;
 
     std::ostringstream oss;
@@ -49,6 +57,9 @@ static void onClientVisit(const httplib::Request& req) {
         << " from " << req.remote_addr
         << " -> " << req.path;
     log_line(oss.str());
+	cli->minitel->println("Hello");
+
+	// screen->machine->println("HELLO GUYS");
 
     // Examples of what you could do here instead / in addition:
     //
@@ -62,9 +73,20 @@ static void onClientVisit(const httplib::Request& req) {
     //
     //   - Write structured data to a file/db for later analysis.
 }
-
+void handleSignal(int signal) {
+    g_signal = signal;
+}
 int main() {
+
+	Client *scr;
+
+	scr = new Client("/dev/ttyUSB0");
     httplib::Server svr;
+
+	std::signal(SIGINT, handleSignal);
+    std::signal(SIGTERM, handleSignal);
+
+
 
     // Serve everything in ./public as static files (index.html, css, js...)
     auto ret = svr.set_mount_point("/", "./public");
@@ -76,8 +98,8 @@ int main() {
     // Hook that fires on every single request, before it's handled.
     // This is the simplest way to guarantee onClientVisit() runs no matter
     // which file/route was requested.
-    svr.set_pre_routing_handler([](const httplib::Request& req, httplib::Response&) {
-        onClientVisit(req);
+    svr.set_pre_routing_handler([scr](const httplib::Request& req, httplib::Response&) {
+        onClientVisit(req, scr);
         return httplib::Server::HandlerResponse::Unhandled; // let normal routing continue
     });
 

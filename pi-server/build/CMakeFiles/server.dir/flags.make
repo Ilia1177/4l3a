@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = -DCPPHTTPLIB_BROTLI_SUPPORT -DCPPHTTPLIB_OPENSSL_SUPPORT -DCPPHTTPLIB_USE_CERTS_FROM_MACOSX_KEYCHAIN -DCPPHTTPLIB_ZLIB_SUPPORT
 
-CXX_INCLUDES = -isystem /Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-src -isystem /opt/homebrew/Cellar/brotli/1.2.0/include -isystem /opt/homebrew/Cellar/openssl@3/3.6.3/include
+CXX_INCLUDES = -I/Users/ilia/Documents/4l3a/pi-server/inc -isystem /opt/homebrew/include -isystem /Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-src -isystem /opt/homebrew/Cellar/brotli/1.2.0/include -isystem /opt/homebrew/Cellar/openssl@3/3.6.3/include
 
 CXX_FLAGSarm64 = -O3 -DNDEBUG -std=gnu++17 -arch arm64
 

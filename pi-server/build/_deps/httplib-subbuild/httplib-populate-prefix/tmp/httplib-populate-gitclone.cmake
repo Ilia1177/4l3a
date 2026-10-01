@@ -3,11 +3,11 @@
 
 cmake_minimum_required(VERSION ${CMAKE_VERSION}) # this file comes with cmake
 
-if(EXISTS "/Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-subbuild/httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-gitclone-lastrun.txt" AND EXISTS "/Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-subbuild/httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-gitinfo.txt" AND
-  "/Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-subbuild/httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-gitclone-lastrun.txt" IS_NEWER_THAN "/Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-subbuild/httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-gitinfo.txt")
+if(EXISTS "/Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-subbuild/httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-gitclone-lastrun.txt" AND EXISTS "/Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-subbuild/httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-gitinfo.txt" AND
+  "/Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-subbuild/httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-gitclone-lastrun.txt" IS_NEWER_THAN "/Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-subbuild/httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-gitinfo.txt")
   message(VERBOSE
     "Avoiding repeated git clone, stamp file is up to date: "
-    "'/Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-subbuild/httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-gitclone-lastrun.txt'"
+    "'/Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-subbuild/httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-gitclone-lastrun.txt'"
   )
   return()
 endif()
@@ -22,12 +22,12 @@ else()
 endif()
 
 execute_process(
-  COMMAND ${CMAKE_COMMAND} -E rm -rf "/Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-src"
+  COMMAND ${CMAKE_COMMAND} -E rm -rf "/Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-src"
   RESULT_VARIABLE error_code
   ${maybe_show_command}
 )
 if(error_code)
-  message(FATAL_ERROR "Failed to remove directory: '/Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-src'")
+  message(FATAL_ERROR "Failed to remove directory: '/Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-src'")
 endif()
 
 # try the clone 3 times in case there is an odd git clone issue
@@ -37,7 +37,7 @@ while(error_code AND number_of_tries LESS 3)
   execute_process(
     COMMAND "/opt/homebrew/bin/git"
             clone --no-checkout --config "advice.detachedHead=false" "https://github.com/yhirose/cpp-httplib.git" "httplib-src"
-    WORKING_DIRECTORY "/Users/ilia/Documents/pi-serv/pi-server/build/_deps"
+    WORKING_DIRECTORY "/Users/ilia/Documents/4l3a/pi-server/build/_deps"
     RESULT_VARIABLE error_code
     ${maybe_show_command}
   )
@@ -53,7 +53,7 @@ endif()
 execute_process(
   COMMAND "/opt/homebrew/bin/git"
           checkout "v0.15.3" --
-  WORKING_DIRECTORY "/Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-src"
+  WORKING_DIRECTORY "/Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-src"
   RESULT_VARIABLE error_code
   ${maybe_show_command}
 )
@@ -66,22 +66,22 @@ if(init_submodules)
   execute_process(
     COMMAND "/opt/homebrew/bin/git" 
             submodule update --recursive --init 
-    WORKING_DIRECTORY "/Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-src"
+    WORKING_DIRECTORY "/Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-src"
     RESULT_VARIABLE error_code
     ${maybe_show_command}
   )
 endif()
 if(error_code)
-  message(FATAL_ERROR "Failed to update submodules in: '/Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-src'")
+  message(FATAL_ERROR "Failed to update submodules in: '/Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-src'")
 endif()
 
 # Complete success, update the script-last-run stamp file:
 #
 execute_process(
-  COMMAND ${CMAKE_COMMAND} -E copy "/Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-subbuild/httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-gitinfo.txt" "/Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-subbuild/httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-gitclone-lastrun.txt"
+  COMMAND ${CMAKE_COMMAND} -E copy "/Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-subbuild/httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-gitinfo.txt" "/Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-subbuild/httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-gitclone-lastrun.txt"
   RESULT_VARIABLE error_code
   ${maybe_show_command}
 )
 if(error_code)
-  message(FATAL_ERROR "Failed to copy script-last-run stamp file: '/Users/ilia/Documents/pi-serv/pi-server/build/_deps/httplib-subbuild/httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-gitclone-lastrun.txt'")
+  message(FATAL_ERROR "Failed to copy script-last-run stamp file: '/Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-subbuild/httplib-populate-prefix/src/httplib-populate-stamp/httplib-populate-gitclone-lastrun.txt'")
 endif()
