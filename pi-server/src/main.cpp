@@ -84,19 +84,25 @@ void handleSignal(int signal) {
 
 int main() {
 
-	// Client *scr;
-	//
-	// scr = new Client("/dev/ttyUSB0");
 	httplib::Server svr;
-
 	HardwareSerial serial;
+	Minitel *minitel;
+
 	serial.openPort("/dev/ttyUSB0");
-	Minitel *minitel = new Minitel(serial);
+	minitel = new Minitel(serial);
+	minitel->clearScreen();
 
 	std::signal(SIGINT, handleSignal);
     std::signal(SIGTERM, handleSignal);
 
-
+    // Watcher thread: polls g_signal, stops the server once it's set
+    std::thread watcher([&svr]() {
+        while (!g_signal) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(200));
+        }
+        std::cout << "\nSignal received, shutting down...\n";
+        svr.stop();
+    });
 
     // Serve everything in ./public as static files (index.html, css, js...)
     auto ret = svr.set_mount_point("/", "./public");
@@ -136,6 +142,7 @@ int main() {
 
     std::cout << "Listening on http://" << host << ":" << port << " (behind Caddy)\n";
     svr.listen(host, port);
-
+    watcher.join();
+	delete minitel;
     return 0;
 }
