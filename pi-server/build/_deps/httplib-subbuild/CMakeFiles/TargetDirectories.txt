@@ -1,3 +1,0 @@
-/Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-subbuild/CMakeFiles/httplib-populate.dir
-/Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-subbuild/CMakeFiles/edit_cache.dir
-/Users/ilia/Documents/4l3a/pi-server/build/_deps/httplib-subbuild/CMakeFiles/rebuild_cache.dir
