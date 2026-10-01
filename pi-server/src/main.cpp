@@ -49,17 +49,21 @@ static std::atomic<uint64_t> g_visit_count{0};
 // Keep it fast (or dispatch to a background thread) since it runs inline
 // with the request.
 // ---------------------------------------------------------------------------
-static void onClientVisit(const httplib::Request& req, Client* cli) {
+static void onClientVisit(const httplib::Request& req) {
     uint64_t count = ++g_visit_count;
 
     std::ostringstream oss;
+
+
+	std::string client_ip = req.remote_addr; // fallback
+    if (req.has_header("X-Forwarded-For")) {
+        client_ip = req.get_header_value("X-Forwarded-For");
+    }
     oss << "[" << timestamp_now() << "] visit #" << count
         << " from " << req.remote_addr
         << " -> " << req.path;
     log_line(oss.str());
-	cli->minitel->println("Hello");
-
-	// screen->machine->println("HELLO GUYS");
+	// cli->minitel->println("Hello");
 
     // Examples of what you could do here instead / in addition:
     //
@@ -73,15 +77,21 @@ static void onClientVisit(const httplib::Request& req, Client* cli) {
     //
     //   - Write structured data to a file/db for later analysis.
 }
+
 void handleSignal(int signal) {
     g_signal = signal;
 }
+
 int main() {
 
-	Client *scr;
+	// Client *scr;
+	//
+	// scr = new Client("/dev/ttyUSB0");
+	httplib::Server svr;
 
-	scr = new Client("/dev/ttyUSB0");
-    httplib::Server svr;
+	HardwareSerial serial;
+	serial.openPort("/dev/ttyUSB0");
+	Minitel *minitel = new Minitel(serial);
 
 	std::signal(SIGINT, handleSignal);
     std::signal(SIGTERM, handleSignal);
@@ -98,10 +108,20 @@ int main() {
     // Hook that fires on every single request, before it's handled.
     // This is the simplest way to guarantee onClientVisit() runs no matter
     // which file/route was requested.
-    svr.set_pre_routing_handler([scr](const httplib::Request& req, httplib::Response&) {
-        onClientVisit(req, scr);
+    svr.set_pre_routing_handler([](const httplib::Request& req, httplib::Response&) {
+        onClientVisit(req);
         return httplib::Server::HandlerResponse::Unhandled; // let normal routing continue
     });
+
+	svr.set_pre_routing_handler([](const httplib::Request& req, httplib::Response&) {
+		onClientVisit(req);
+		return httplib::Server::HandlerResponse::Unhandled;
+	});
+		
+	svr.Get("/api/minitel", [minitel](const httplib::Request&, httplib::Response& res) {
+    minitel->println("Hello");
+    res.set_content("{\"status\":\"printed\"}", "application/json");
+	});
 
     // Example JSON API route, so you can see the visit counter working.
     svr.Get("/api/status", [](const httplib::Request&, httplib::Response& res) {
