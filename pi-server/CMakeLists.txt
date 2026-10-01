@@ -20,10 +20,8 @@ find_package(PNG REQUIRED)
 find_package(Threads REQUIRED)
 add_executable(server
     src/main.cpp
-    src/client/client.cpp
 	src/minitel/HardwareSim.cpp
 	src/minitel/Minitel1B_Hard.cpp
-    # src/server/server.cpp
     src/utils/utils.cpp
 )
 target_include_directories(server PRIVATE

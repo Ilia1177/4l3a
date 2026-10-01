@@ -10,8 +10,6 @@
 #include <sstream>
 
 #include "Minitel1B_Hard.h"
-#include "HardwareSim.h"
-#include "Client.hpp"
 #include <csignal>
 
 
@@ -82,8 +80,8 @@ void handleSignal(int signal) {
     g_signal = signal;
 }
 
-int main() {
-
+int main() 
+{
 	httplib::Server svr;
 	HardwareSerial serial;
 	Minitel *minitel;
