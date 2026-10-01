@@ -9,6 +9,7 @@
 #include <termios.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
+#include <csignal>
 
 typedef uint8_t byte;
 typedef uint16_t word;
