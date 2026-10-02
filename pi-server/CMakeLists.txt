@@ -22,7 +22,7 @@ add_executable(server
     src/main.cpp
     src/SessionManager.cpp
     src/routes.cpp
-    src/maze/maze.cpp
+	src/maze/Maze.cpp
     src/minitel/HardwareSim.cpp
     src/minitel/Minitel1B_Hard.cpp
     src/utils/utils.cpp
