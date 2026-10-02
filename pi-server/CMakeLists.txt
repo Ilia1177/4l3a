@@ -20,6 +20,7 @@ find_package(PNG REQUIRED)
 find_package(Threads REQUIRED)
 add_executable(server
     src/main.cpp
+	src/maze/maze.cpp
 	src/minitel/HardwareSim.cpp
 	src/minitel/Minitel1B_Hard.cpp
     src/utils/utils.cpp

@@ -107,10 +107,12 @@ HardwareSerial::operator bool() const
 { 
 	return _fd >= 0; 
 }
+
 void HardwareSerial::setFd(int fd) 
 {
 	_fd = fd; 
 }
+
 int HardwareSerial::getFd() 
 {
 	return _fd; 

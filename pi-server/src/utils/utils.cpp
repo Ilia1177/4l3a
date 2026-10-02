@@ -1,10 +1,8 @@
 #include "Minitel1B_Hard.h"
-#include "Client.hpp"
 #include <fstream>
 
-void machine_print_infos(Client* client)
+void machine_print_infos(Minitel* machine)
 {
-    Minitel* machine = client->minitel;
 
     machine->moveCursorXY(1, 24);
     machine->attributs(CARACTERE_BLANC);
@@ -19,13 +17,11 @@ void machine_print_infos(Client* client)
 	machine->cancel();
 }
 
-void input_box(Client* client)
+void input_box(Minitel* machine)
 {
-	Minitel* machine;
 
 	static std::string input;
 
-	machine = client->minitel;
 	machine->moveCursorXY(1, 24);
 	machine->attributs(CARACTERE_VERT);
 	machine->attributs(INVERSION_FOND);
@@ -55,14 +51,11 @@ std::string getline_number(const std::string &path, int nb)
 	return ligne;
 }
 
-int print_file(Client* client, const std::string &path) 
+int print_file(Minitel* machine, const std::string &path) 
 {
 	std::ifstream fichier;
 	std::string ligne;
-	Minitel* machine;
-	// byte caractere;
 
-	machine = client->minitel;
 	fichier.open(path);
 	if (!fichier.is_open()) {
 		return -1;

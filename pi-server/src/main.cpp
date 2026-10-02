@@ -9,7 +9,8 @@
 #include <mutex>
 #include <sstream>
 
-#include "Minitel1B_Hard.h"
+#include "Maze.hpp"
+
 #include <csignal>
 
 
@@ -18,7 +19,6 @@ volatile sig_atomic_t g_signal = 0;
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
-
 static std::string timestamp_now() {
     auto t = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
     std::tm tm{};
@@ -31,6 +31,7 @@ static std::string timestamp_now() {
 // A tiny mutex-guarded log file, since this can be called from multiple
 // worker threads (httplib is multi-threaded by default).
 static std::mutex g_log_mutex;
+
 static void log_line(const std::string& line) {
     std::lock_guard<std::mutex> lock(g_log_mutex);
     std::cout << line << std::endl;
@@ -80,18 +81,32 @@ void handleSignal(int signal) {
     g_signal = signal;
 }
 
+void routes(httplib::Server& srv) {
+
+}
 int main() 
 {
 	httplib::Server svr;
 	HardwareSerial serial;
 	Minitel *minitel;
+	Maze *maze;
 
 	serial.openPort("/dev/ttyUSB0");
 	minitel = new Minitel(serial);
 	minitel->clearScreen();
 
+	maze = new Maze(minitel);
+
 	std::signal(SIGINT, handleSignal);
     std::signal(SIGTERM, handleSignal);
+
+
+    // Serve everything in ./public as static files (index.html, css, js...)
+    auto ret = svr.set_mount_point("/", "./public");
+    if (!ret) {
+        std::cerr << "Couldn't mount ./public — does the folder exist next to the binary?\n";
+        return 1;
+    }
 
     // Watcher thread: polls g_signal, stops the server once it's set
     std::thread watcher([&svr]() {
@@ -101,14 +116,6 @@ int main()
         std::cout << "\nSignal received, shutting down...\n";
         svr.stop();
     });
-
-    // Serve everything in ./public as static files (index.html, css, js...)
-    auto ret = svr.set_mount_point("/", "./public");
-    if (!ret) {
-        std::cerr << "Couldn't mount ./public — does the folder exist next to the binary?\n";
-        return 1;
-    }
-
     // Hook that fires on every single request, before it's handled.
     // This is the simplest way to guarantee onClientVisit() runs no matter
     // which file/route was requested.
@@ -117,14 +124,30 @@ int main()
         return httplib::Server::HandlerResponse::Unhandled; // let normal routing continue
     });
 
-	svr.set_pre_routing_handler([](const httplib::Request& req, httplib::Response&) {
-		onClientVisit(req);
-		return httplib::Server::HandlerResponse::Unhandled;
-	});
+	// svr.set_pre_routing_handler([](const httplib::Request& req, httplib::Response&) {
+	// 	onClientVisit(req);
+	// 	return httplib::Server::HandlerResponse::Unhandled;
+	// });
 		
-	svr.Get("/api/minitel", [minitel](const httplib::Request&, httplib::Response& res) {
-    minitel->println("Hello");
-    res.set_content("{\"status\":\"printed\"}", "application/json");
+	svr.Get("/api/minitel/printcode", [maze](const httplib::Request&, httplib::Response& res) {
+		res.set_content("{\"status\":\"printed\"}", "application/json");
+		maze->init();
+	});
+
+	svr.Post("/api/minitel/hazardousLab", [minitel, maze](const httplib::Request& req, httplib::Response& res) {
+		if (!req.has_param("code")) {
+			res.status = 400;
+			res.set_content("{\"error\":\"missing code\"}", "application/json");
+			return;
+		}
+		std::string code = req.get_param_value("code");
+		std::ostringstream oss;
+		oss << "[" << timestamp_now() << "] passcode submitted: " << code;
+		log_line(oss.str());
+
+		maze->verify_pass(code);
+		maze->enter();
+		res.set_content("{\"status\":\"sent\"}", "application/json");
 	});
 
     // Example JSON API route, so you can see the visit counter working.

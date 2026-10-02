@@ -12,19 +12,45 @@
       padding: 0 1rem;
       line-height: 1.5;
     }
-    code { background: #f0f0f0; padding: 0.1rem 0.3rem; border-radius: 4px; }
   </style>
 </head>
 <body>
   <h1>HAZARDOUS ÉDITORIAL</h1>
   <p>WELCOME TO THE HAZARDOUS LABOTORY</p>
   <p id="status">Checking status…</p>
-<button id="printBtn">Print on Minitel</button>
-<p id="printResult"></p>
+  <div>
+  <input type="text" id="passcodeInput" placeholder="Enter passcode" />
+  <button id="passcodeBtn">Entrer the HAZARDOUS Maze</button>
+  <p id="passcodeResult"></p>
+  </div>
+
+  <button id="printBtn">Get your code</button>
+  <p id="printResult"></p>
+
+<script>
+  document.getElementById('passcodeBtn').addEventListener('click', () => {
+    const code = document.getElementById('passcodeInput').value;
+    if (!code) return;
+
+    fetch('/api/minitel/hazardousLab', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({ code })
+    })
+      .then(r => r.json())
+      .then(d => {
+        document.getElementById('passcodeResult').textContent =
+          d.status ? 'Sent: ' + d.status : 'Error: ' + d.error;
+      })
+      .catch(() => {
+        document.getElementById('passcodeResult').textContent = 'Failed to reach server';
+      });
+  });
+</script>
 
 <script>
   document.getElementById('printBtn').addEventListener('click', () => {
-    fetch('/api/minitel')
+    fetch('/api/minitel/printcode')
       .then(r => r.json())
       .then(d => {
         document.getElementById('printResult').textContent = 'Sent: ' + d.status;
@@ -35,16 +61,17 @@
   });
 </script>
 
-  <script>
-    fetch('/api/status')
-      .then(r => r.json())
-      .then(d => {
-        document.getElementById('status').textContent =
-          `Server status: ${d.status} — total visits so far: ${d.visits}`;
-      })
-      .catch(() => {
-        document.getElementById('status').textContent = 'Could not reach /api/status';
-      });
-  </script>
+<script>
+  fetch('/api/status')
+    .then(r => r.json())
+    .then(d => {
+      document.getElementById('status').textContent =
+        `Server status: ${d.status} — total visits so far: ${d.visits}`;
+    })
+    .catch(() => {
+      document.getElementById('status').textContent = 'Could not reach /api/status';
+    });
+</script>
+
 </body>
 </html>
