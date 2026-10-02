@@ -13,12 +13,76 @@
 
 #include <csignal>
 
+#include <random>
+#include <optional>
 
+class SessionManager {
+public:
+    // Try to claim the session. Returns a token on success, nullopt if busy.
+    std::optional<std::string> tryJoin() {
+        std::lock_guard<std::mutex> lock(mtx_);
+        reapIfExpired();
+
+        if (!token_.empty()) {
+            return std::nullopt; // someone else is already playing
+        }
+
+        token_ = generateToken();
+        lastActivity_ = std::chrono::steady_clock::now();
+        return token_;
+    }
+
+    // Check a request's token is the current owner; refreshes activity if valid.
+    bool validate(const std::string& token) {
+        std::lock_guard<std::mutex> lock(mtx_);
+        reapIfExpired();
+
+        if (token.empty() || token != token_) return false;
+        lastActivity_ = std::chrono::steady_clock::now();
+        return true;
+    }
+
+    // Explicit release (e.g. user clicks "leave" or closes the tab cleanly).
+    void release(const std::string& token) {
+        std::lock_guard<std::mutex> lock(mtx_);
+        if (token == token_) {
+            token_.clear();
+        }
+    }
+
+private:
+    std::mutex mtx_;
+    std::string token_;
+    std::chrono::steady_clock::time_point lastActivity_;
+    static constexpr int kTimeoutSeconds = 60;
+
+    void reapIfExpired() {
+        if (token_.empty()) return;
+        auto idle = std::chrono::steady_clock::now() - lastActivity_;
+        if (idle > std::chrono::seconds(kTimeoutSeconds)) {
+            token_.clear(); // previous player went idle/disappeared
+        }
+    }
+
+    std::string generateToken() {
+        static std::random_device rd;
+        static std::mt19937_64 gen(rd());
+        std::uniform_int_distribution<uint64_t> dist;
+        std::ostringstream oss;
+        oss << std::hex << dist(gen);
+        return oss.str();
+    }
+};
+
+static SessionManager g_session;
 
 volatile sig_atomic_t g_signal = 0;
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
+static std::string tokenFromRequest(const httplib::Request& req) {
+    return req.get_header_value("X-Session-Token");
+}
 static std::string timestamp_now() {
     auto t = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
     std::tm tm{};
@@ -62,19 +126,6 @@ static void onClientVisit(const httplib::Request& req) {
         << " from " << req.remote_addr
         << " -> " << req.path;
     log_line(oss.str());
-	// cli->minitel->println("Hello");
-
-    // Examples of what you could do here instead / in addition:
-    //
-    //   - Toggle a GPIO pin (e.g. with pigpio or libgpiod):
-    //       gpioWrite(17, 1);
-    //
-    //   - Fire a webhook / notification:
-    //       httplib::Client cli("https://hooks.example.com");
-    //       cli.Post("/notify", "someone visited", "text/plain");
-    //     (do this on a detached thread so it never blocks the response)
-    //
-    //   - Write structured data to a file/db for later analysis.
 }
 
 void handleSignal(int signal) {
@@ -129,26 +180,97 @@ int main()
 	// 	return httplib::Server::HandlerResponse::Unhandled;
 	// });
 		
-	svr.Get("/api/minitel/printcode", [maze](const httplib::Request&, httplib::Response& res) {
+	svr.Post("/api/minitel/join", [maze](const httplib::Request&, httplib::Response& res) {
+		auto token = g_session.tryJoin();
+		if (!token) {
+			res.status = 409; // Conflict — someone's already playing
+			res.set_content("{\"error\":\"session busy\"}", "application/json");
+			return;
+		}
+
+		maze->init();
+		std::ostringstream json;
+		json << "{\"status\":\"joined\",\"token\":\"" << *token << "\"}";
+		res.set_content(json.str(), "application/json");
+	});
+
+	svr.Post("/api/minitel/leave", [](const httplib::Request& req, httplib::Response& res) {
+		g_session.release(tokenFromRequest(req));
+		res.set_content("{\"status\":\"left\"}", "application/json");
+	});
+	svr.Get("/api/minitel/printcode", [maze](const httplib::Request& req, httplib::Response& res) {
+		if (!g_session.validate(tokenFromRequest(req))) {
+			res.status = 403;
+			res.set_content("{\"error\":\"not your session\"}", "application/json");
+			return;
+		}
 		res.set_content("{\"status\":\"printed\"}", "application/json");
 		maze->init();
 	});
-
-	svr.Post("/api/minitel/hazardousLab", [minitel, maze](const httplib::Request& req, httplib::Response& res) {
-		if (!req.has_param("code")) {
-			res.status = 400;
-			res.set_content("{\"error\":\"missing code\"}", "application/json");
+	svr.Post("/api/minitel/join", [maze](const httplib::Request&, httplib::Response& res) {
+		auto token = g_session.tryJoin();
+		if (!token) {
+			res.status = 409; // Conflict — someone's already playing
+			res.set_content("{\"error\":\"session busy\"}", "application/json");
 			return;
 		}
-		std::string code = req.get_param_value("code");
-		std::ostringstream oss;
-		oss << "[" << timestamp_now() << "] passcode submitted: " << code;
-		log_line(oss.str());
 
-		maze->verify_pass(code);
-		maze->enter();
-		res.set_content("{\"status\":\"sent\"}", "application/json");
+		maze->init();
+		std::ostringstream json;
+		json << "{\"status\":\"joined\",\"token\":\"" << *token << "\"}";
+		res.set_content(json.str(), "application/json");
 	});
+
+	svr.Post("/api/minitel/leave", [](const httplib::Request& req, httplib::Response& res) {
+		g_session.release(tokenFromRequest(req));
+		res.set_content("{\"status\":\"left\"}", "application/json");
+	});
+
+svr.Get("/api/minitel/printcode", [maze](const httplib::Request& req, httplib::Response& res) {
+    if (!g_session.validate(tokenFromRequest(req))) {
+        res.status = 403;
+        res.set_content("{\"error\":\"not your session\"}", "application/json");
+        return;
+    }
+    res.set_content("{\"status\":\"printed\"}", "application/json");
+    maze->init();
+});
+
+svr.Post("/api/minitel/hazardousLab", [minitel, maze](const httplib::Request& req, httplib::Response& res) {
+    if (!g_session.validate(tokenFromRequest(req))) {
+        res.status = 403;
+        res.set_content("{\"error\":\"not your session\"}", "application/json");
+        return;
+    }
+    if (!req.has_param("code")) {
+        res.status = 400;
+        res.set_content("{\"error\":\"missing code\"}", "application/json");
+        return;
+    }
+    std::string code = req.get_param_value("code");
+    std::ostringstream oss;
+    oss << "[" << timestamp_now() << "] passcode submitted: " << code;
+    log_line(oss.str());
+
+    maze->verify_pass(code);
+    maze->enter();
+    res.set_content("{\"status\":\"sent\"}", "application/json");
+});
+		svr.Post("/api/minitel/hazardousLab", [minitel, maze](const httplib::Request& req, httplib::Response& res) {
+			if (!req.has_param("code")) {
+				res.status = 400;
+				res.set_content("{\"error\":\"missing code\"}", "application/json");
+				return;
+			}
+			std::string code = req.get_param_value("code");
+			std::ostringstream oss;
+			oss << "[" << timestamp_now() << "] passcode submitted: " << code;
+			log_line(oss.str());
+
+			maze->verify_pass(code);
+			maze->enter();
+			res.set_content("{\"status\":\"sent\"}", "application/json");
+		});
 
     // Example JSON API route, so you can see the visit counter working.
     svr.Get("/api/status", [](const httplib::Request&, httplib::Response& res) {

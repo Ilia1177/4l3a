@@ -26,7 +26,41 @@
 
   <button id="printBtn">Get your code</button>
   <p id="printResult"></p>
+<p id="sessionStatus">Connecting…</p>
 
+<script>
+  let sessionToken = null;
+
+  function join() {
+    fetch('/api/minitel/join', { method: 'POST' })
+      .then(r => r.json().then(d => ({ ok: r.ok, d })))
+      .then(({ ok, d }) => {
+        if (ok) {
+          sessionToken = d.token;
+          document.getElementById('sessionStatus').textContent = 'You are playing!';
+        } else {
+          document.getElementById('sessionStatus').textContent = 'Someone else is playing — try again shortly.';
+        }
+      });
+  }
+
+  function callMinitel(path, options = {}) {
+    if (!sessionToken) return Promise.reject('no session');
+    return fetch(path, {
+      ...options,
+      headers: { ...(options.headers || {}), 'X-Session-Token': sessionToken }
+    });
+  }
+
+  // Release the session when the tab closes, if possible.
+  window.addEventListener('beforeunload', () => {
+    if (sessionToken) {
+      navigator.sendBeacon('/api/minitel/leave', new Blob());
+    }
+  });
+
+  join();
+</script>
 <script>
   document.getElementById('passcodeBtn').addEventListener('click', () => {
     const code = document.getElementById('passcodeInput').value;
