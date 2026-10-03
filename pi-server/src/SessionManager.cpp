@@ -12,6 +12,7 @@ std::optional<std::string> SessionManager::tryJoin() {
         return std::nullopt; // someone else is already playing
     }
     token_ = generateToken();
+	log_line("Token generated: " + token_ + "\n");
     lastActivity_ = std::chrono::steady_clock::now();
     return token_;
 }
