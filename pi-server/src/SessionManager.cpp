@@ -5,6 +5,7 @@
 
 void log_line(const std::string& line);
 
+SessionManager::SessionManager(void): kTimeoutSeconds_(60) {};
 std::optional<std::string> SessionManager::tryJoin() {
     std::lock_guard<std::mutex> lock(mtx_);
     reapIfExpired();

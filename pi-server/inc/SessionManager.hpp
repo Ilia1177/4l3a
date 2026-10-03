@@ -8,6 +8,8 @@
 
 class SessionManager {
 public:
+
+	SessionManager(void);
     // Try to claim the session. Returns a token on success, nullopt if busy.
     std::optional<std::string> tryJoin();
 
