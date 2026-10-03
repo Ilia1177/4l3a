@@ -34,8 +34,8 @@ bool SessionManager::validate(const std::string& token)
 
 void SessionManager::release(const std::string& token) {
     std::lock_guard<std::mutex> lock(mtx_);
-	log_line("release() called with token=" + token + " current=" + token_);
     if (token == token_) {
+		log_line("release() called with token=" + token + " current=" + token_);
         token_.clear();
     }
 }
@@ -50,7 +50,6 @@ void SessionManager::setTimeout(int seconds) {
 void SessionManager::reapIfExpired() {
     if (token_.empty()) return;
     auto idle = std::chrono::steady_clock::now() - lastActivity_;
-    log_line("reapIfExpired: kTimeoutSeconds_=" + std::to_string(kTimeoutSeconds_));
     if (idle > std::chrono::seconds(kTimeoutSeconds_)) {
         token_.clear();
         log_line("Reap TOKEN");

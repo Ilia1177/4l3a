@@ -33,4 +33,6 @@ target_include_directories(server PRIVATE
 )
 target_link_libraries(server PRIVATE PNG::PNG httplib::httplib Threads::Threads)
 # Copy the public/ folder next to the binary so relative paths just work
-file(COPY ${CMAKE_SOURCE_DIR}/public DESTINATION ${CMAKE_BINARY_DIR})
+# file(CREATE_LINK ${CMAKE_SOURCE_DIR}/public DESTINATION ${CMAKE_BINARY_DIR} SYMBOLIC)
+file(CREATE_LINK ${CMAKE_SOURCE_DIR}/public ${CMAKE_BINARY_DIR}/public SYMBOLIC)
+# file(COPY ${CMAKE_SOURCE_DIR}/public DESTINATION ${CMAKE_BINARY_DIR})
