@@ -22,7 +22,8 @@ void handleSignal(int signal) {
 
 int main() 
 {
-	std::cout << "START 4l3A SERVER v" << VERSION << std::endl;
+	std::cout << "START 4l3A SERVER v" << VERSION;
+	std::cout << std::endl;
     httplib::Server svr;
     Minitel* minitel = nullptr;
     Maze* maze = nullptr;
