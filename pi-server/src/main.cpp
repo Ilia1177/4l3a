@@ -7,7 +7,7 @@
 #include <thread>
 #include <atomic>
 
-#define VERSION "0.1";
+#define VERSION "1.1";
 
 extern void registerRoutes(httplib::Server& srv, Maze& maze);
 
