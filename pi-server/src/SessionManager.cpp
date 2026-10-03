@@ -46,15 +46,16 @@ void SessionManager::setTimeout(int seconds) {
     std::lock_guard<std::mutex> lock(mtx_);
     kTimeoutSeconds_ = seconds;
 }
-
 void SessionManager::reapIfExpired() {
     if (token_.empty()) return;
     auto idle = std::chrono::steady_clock::now() - lastActivity_;
+    log_line("reapIfExpired: kTimeoutSeconds_=" + std::to_string(kTimeoutSeconds_));
     if (idle > std::chrono::seconds(kTimeoutSeconds_)) {
-        token_.clear(); // previous player went idle/disappeared
-		log_line("Reap TOKEN");
+        token_.clear();
+        log_line("Reap TOKEN");
     }
 }
+
 
 std::string SessionManager::generateToken() {
     static std::random_device rd;
