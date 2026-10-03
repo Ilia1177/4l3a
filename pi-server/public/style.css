@@ -1,0 +1,60 @@
+/* Sober vintage dark-Minitel theme */
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  max-width: 40rem;
+  margin: 4rem auto;
+  padding: 0 1rem;
+  line-height: 1.5;
+  background: #14100b;
+  color: #e8dcc3;
+}
+
+h1 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  color: #c9a227;
+  border-bottom: 1px solid #3a3128;
+  padding-bottom: 0.5rem;
+}
+
+p {
+  color: #e8dcc3;
+}
+
+#status,
+#sessionStatus,
+#printResult,
+#passcodeResult {
+  font-family: ui-monospace, monospace;
+  font-size: 0.9rem;
+  color: #b8a67e;
+}
+
+input[type="text"] {
+  background: #1e1811;
+  color: #e8dcc3;
+  border: 1px solid #3a3128;
+  padding: 0.4rem 0.6rem;
+  font: inherit;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border-color: #c9a227;
+}
+
+button {
+  background: #1e1811;
+  color: #e8dcc3;
+  border: 1px solid #c9a227;
+  padding: 0.4rem 0.8rem;
+  font: inherit;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #c9a227;
+  color: #14100b;
+}
