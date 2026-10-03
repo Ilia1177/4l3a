@@ -20,6 +20,8 @@ public:
     // Set timeout in seconds (default 60)
     void setTimeout(int seconds);
 
+	// Add timeout in sec
+	void addTimeout(int seconds);
 private:
     std::mutex mtx_;
     std::string token_;

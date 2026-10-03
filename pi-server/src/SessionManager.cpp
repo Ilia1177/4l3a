@@ -3,24 +3,31 @@
 #include <sstream>
 #include <iostream>
 
+void log_line(const std::string& line);
+
 std::optional<std::string> SessionManager::tryJoin() {
     std::lock_guard<std::mutex> lock(mtx_);
     reapIfExpired();
-
     if (!token_.empty()) {
         return std::nullopt; // someone else is already playing
     }
-
     token_ = generateToken();
     lastActivity_ = std::chrono::steady_clock::now();
     return token_;
 }
 
-bool SessionManager::validate(const std::string& token) {
+bool SessionManager::validate(const std::string& token) 
+{
     std::lock_guard<std::mutex> lock(mtx_);
     reapIfExpired();
-
-    if (token.empty() || token != token_) return false;
+    if (token.empty() || token != token_) {
+		std::ostringstream oss;
+		oss << "[session] rejected. got=" << token << " expected=" << token_ << "\n";
+        log_line(oss.str());
+        return false;
+    }
+    if (token.empty() || token != token_) 
+		return false;
     lastActivity_ = std::chrono::steady_clock::now();
     return true;
 }
@@ -31,7 +38,10 @@ void SessionManager::release(const std::string& token) {
         token_.clear();
     }
 }
-
+void SessionManager::addTimeout(int seconds) {
+    std::lock_guard<std::mutex> lock(mtx_);
+    kTimeoutSeconds_ += seconds;
+}
 void SessionManager::setTimeout(int seconds) {
     std::lock_guard<std::mutex> lock(mtx_);
     kTimeoutSeconds_ = seconds;

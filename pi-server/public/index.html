@@ -19,16 +19,39 @@
   <p>WELCOME TO THE HAZARDOUS LABOTORY</p>
   <p id="status">Checking status…</p>
   <div>
-  <input type="text" id="passcodeInput" placeholder="Enter passcode" />
-  <button id="passcodeBtn">Entrer the HAZARDOUS Maze</button>
-  <p id="passcodeResult"></p>
+    <input type="text" id="passcodeInput" placeholder="Enter passcode" />
+    <button id="passcodeBtn">Entrer the HAZARDOUS Maze</button>
+    <p id="passcodeResult"></p>
   </div>
 
   <button id="printBtn">Get your code</button>
   <p id="printResult"></p>
-<p id="sessionStatus">Connecting…</p>
+  <p id="sessionStatus">Not yet connected...</p>
+  <script>
+  function checkSession() {
+    if (!sessionToken) {
+      document.getElementById('sessionStatus').textContent = 'Not connected';
+      return;
+    }
 
-<script>
+    fetch('/api/minitel/validSession', {
+      method: 'POST',
+      headers: { 'X-Session-Token': sessionToken }
+    })
+      .then(r => r.json().then(d => ({ ok: r.ok, d })))
+      .then(({ ok, d }) => {
+        document.getElementById('sessionStatus').textContent =
+          ok ? 'Connecté au laboratoire' : 'Session expirée';
+        if (!ok) sessionToken = null; // stop treating a dead token as valid
+      })
+      .catch(() => {
+        document.getElementById('sessionStatus').textContent = 'Connexion perdue';
+      });
+  }
+  setInterval(checkSession, 2000); // every 15s
+  checkSession();
+  </script>
+  <script>
   let sessionToken = null;
 
   function join() {
@@ -37,9 +60,9 @@
       .then(({ ok, d }) => {
         if (ok) {
           sessionToken = d.token;
-          document.getElementById('sessionStatus').textContent = 'Laboratoire disponible !';
+          document.getElementById('sessionStatus').textContent = 'Connecté au laboratoire';
         } else {
-          document.getElementById('sessionStatus').textContent = 'Someone else is playing — try again shortly.';
+          document.getElementById('sessionStatus').textContent = 'Session labo no disponible';
         }
       });
   }
@@ -59,14 +82,11 @@
     }
   });
 
-  join();
 </script>
 <script>
   document.getElementById('passcodeBtn').addEventListener('click', () => {
     const code = document.getElementById('passcodeInput').value;
     if (!code) return;
-
-    <!-- fetch('/api/minitel/hazardousLab', { -->
     callMinitel('/api/minitel/hazardousLab', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -75,7 +95,7 @@
       .then(r => r.json())
       .then(d => {
         document.getElementById('passcodeResult').textContent =
-          d.status ? 'Sent: ' + d.status : 'Error: ' + d.error;
+          d.status ? 'Status: ' + d.status : 'Error: ' + d.error;
       })
       .catch(() => {
         document.getElementById('passcodeResult').textContent = 'Failed to reach server';
@@ -85,16 +105,24 @@
 
 <script>
   document.getElementById('printBtn').addEventListener('click', () => {
-    <!-- fetch('/api/minitel/printcode') -->
+  join().then(success => {
+    if (!success) {
+      console.log("Join failed");
+      document.getElementById('printResult').textContent = 'Could not join session';
+      return;
+    }
+    console.log("Join succeed");
     callMinitel('/api/minitel/printcode')
-      .then(r => r.json())
-      .then(d => {
-        document.getElementById('printResult').textContent = 'Sent: ' + d.status;
+      .then(r => r.json().then(d => ({ ok: r.ok, d })))
+      .then(({ ok, d }) => {
+        document.getElementById('printResult').textContent =
+          ok ? 'Status: ' + d.status : 'Error: ' + d.error;
       })
       .catch(() => {
         document.getElementById('printResult').textContent = 'Failed to reach server';
       });
   });
+});
 </script>
 
 <script>

@@ -7,6 +7,8 @@ public:
     Maze(Minitel* minitel);
     ~Maze(void);
 
+	int init_minitel();
+	void game_over(std::string c);
 	void print_code();
     void init();
     void enter();

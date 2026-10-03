@@ -1,48 +1,46 @@
 #include "httplib.h"
 #include "SessionManager.hpp"
 #include "Maze.hpp"
+#include "Logger.hpp"
 
 #include <sstream>
 #include <iostream>
-#include <mutex>
 #include <cstdint>
 
-extern std::mutex g_log_mutex;
 static std::mutex g_minitel_mutex;
 extern SessionManager g_session;
 extern std::atomic<uint64_t> g_visit_count;
 
-std::string tokenFromRequest(const httplib::Request& req) {
+std::string tokenFromRequest(const httplib::Request& req) 
+{
     return req.get_header_value("X-Session-Token");
 }
 
-std::string timestamp_now() {
-    auto t = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-    std::tm tm{};
-    localtime_r(&t, &tm);
-    std::ostringstream oss;
-    oss << std::put_time(&tm, "%Y-%m-%d %H:%M:%S");
-    return oss.str();
-}
+void minitelRoutes(httplib::Server& srv, Maze& maze)
+{
 
-void log_line(const std::string& line) {
-    std::lock_guard<std::mutex> lock(g_log_mutex);
-    std::cout << line << std::endl;
-
-    std::ofstream ofs("visits.log", std::ios::app);
-    if (ofs) ofs << line << "\n";
-}
-
-void registerRoutes(httplib::Server& srv, Maze& maze) {
+    srv.Post("/api/minitel/validSession", [&maze](const httplib::Request& req, httplib::Response& res) {
+			if(!g_session.validate(tokenFromRequest(req))) {
+				res.status = 401;
+				res.set_content("{\"status\": \"token non valide\"}", "application/json");
+				return;
+			}
+			res.set_content("{\"status\": \"token valide\"}", "application/json");
+	});
     // Join - claim a session
     srv.Post("/api/minitel/join", [&maze](const httplib::Request&, httplib::Response& res) {
         auto token = g_session.tryJoin();
         if (!token) {
             res.status = 409; // Conflict — someone's already playing
+			log_line("Session is running");
             res.set_content("{\"error\":\"session busy\"}", "application/json");
             return;
         }
-        maze.init();
+		{
+			std::lock_guard<std::mutex> lock(g_minitel_mutex);
+			maze.init();
+			log_line("Minitel init, session joined");
+		}
         std::ostringstream json;
         json << "{\"status\":\"joined\",\"token\":\"" << *token << "\"}";
         res.set_content(json.str(), "application/json");
@@ -57,28 +55,29 @@ void registerRoutes(httplib::Server& srv, Maze& maze) {
     // Print code - validate session and print
     srv.Get("/api/minitel/printcode", [&maze](const httplib::Request& req, httplib::Response& res) {
         if (!g_session.validate(tokenFromRequest(req))) {
+			log_line("Not your session...");
             res.status = 403;
             res.set_content("{\"error\":\"not your session\"}", "application/json");
             return;
         }
-
 		{
 			std::lock_guard<std::mutex> lock(g_minitel_mutex);
-			maze.init();
 			maze.print_code();
+			log_line("Code printed on minitel device");
 		}
-
         res.set_content("{\"status\":\"printed\"}", "application/json");
     });
 
     // Hazardous lab - submit passcode
     srv.Post("/api/minitel/hazardousLab", [&maze](const httplib::Request& req, httplib::Response& res) {
         if (!g_session.validate(tokenFromRequest(req))) {
+			log_line("Not your session...");
             res.status = 403;
             res.set_content("{\"error\":\"not your session\"}", "application/json");
             return;
         }
         if (!req.has_param("code")) {
+			log_line("no code provided");
             res.status = 400;
             res.set_content("{\"error\":\"missing code\"}", "application/json");
             return;
@@ -90,15 +89,23 @@ void registerRoutes(httplib::Server& srv, Maze& maze) {
 		{
 			std::lock_guard<std::mutex> lock(g_minitel_mutex);
 			if(!maze.verify_pass(code)) {
-				res.status = 402; // Rejection code ???
-        		res.set_content("{\"status\":\"wrong pass\"}", "application/json");
+				maze.game_over("Wrong password...");
+        		log_line("Wrong passcode submitted");
+				res.status = 401; // Unauthorized
+        		res.set_content("{\"error\":\"wrong passcode\"}", "application/json");
 				return;
 			}
+        	log_line("Enter hazardous Maze !");
 			maze.enter();
 		}
-        res.set_content("{\"status\":\"sent\"}", "application/json");
+        res.set_content("{\"status\":\"passcode is correct\"}", "application/json");
     });
 
+}
+
+void registerRoutes(httplib::Server& srv, Maze& maze)
+{
+	minitelRoutes(srv, maze);
     // Status endpoint with visit counter
     srv.Get("/api/status", [](const httplib::Request&, httplib::Response& res) {
         std::ostringstream json;

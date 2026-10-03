@@ -26,6 +26,7 @@ add_executable(server
     src/minitel/HardwareSim.cpp
     src/minitel/Minitel1B_Hard.cpp
     src/utils/utils.cpp
+	src/utils/Logger.cpp
 )
 target_include_directories(server PRIVATE
     ${CMAKE_SOURCE_DIR}/inc
