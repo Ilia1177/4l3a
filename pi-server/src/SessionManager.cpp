@@ -34,6 +34,7 @@ bool SessionManager::validate(const std::string& token)
 
 void SessionManager::release(const std::string& token) {
     std::lock_guard<std::mutex> lock(mtx_);
+	log_line("release() called with token=" + token + " current=" + token_);
     if (token == token_) {
         token_.clear();
     }

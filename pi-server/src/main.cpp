@@ -7,6 +7,8 @@
 #include <thread>
 #include <atomic>
 
+#define VERSION "0.1";
+
 extern void registerRoutes(httplib::Server& srv, Maze& maze);
 
 // Global state shared with routes
@@ -20,6 +22,7 @@ void handleSignal(int signal) {
 
 int main() 
 {
+	std::cout << "START 4l3A SERVER v" << VERSION << std::endl;
     httplib::Server svr;
     Minitel* minitel = nullptr;
     Maze* maze = nullptr;
