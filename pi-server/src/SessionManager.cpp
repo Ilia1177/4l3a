@@ -52,6 +52,7 @@ void SessionManager::reapIfExpired() {
     auto idle = std::chrono::steady_clock::now() - lastActivity_;
     if (idle > std::chrono::seconds(kTimeoutSeconds_)) {
         token_.clear(); // previous player went idle/disappeared
+		log_line("Reap TOKEN");
     }
 }
 
