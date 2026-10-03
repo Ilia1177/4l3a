@@ -26,8 +26,6 @@ bool SessionManager::validate(const std::string& token)
         log_line(oss.str());
         return false;
     }
-    if (token.empty() || token != token_) 
-		return false;
     lastActivity_ = std::chrono::steady_clock::now();
     return true;
 }

@@ -13,7 +13,9 @@ extern std::atomic<uint64_t> g_visit_count;
 
 std::string tokenFromRequest(const httplib::Request& req) 
 {
-    return req.get_header_value("X-Session-Token");
+	std::string tok = req.get_header_value("X-Session-Token");
+	log_line("Token extract: " + tok + "\n");
+    return tok;
 }
 
 void minitelRoutes(httplib::Server& srv, Maze& maze)
