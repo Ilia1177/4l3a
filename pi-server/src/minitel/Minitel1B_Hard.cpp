@@ -1206,9 +1206,7 @@ byte Minitel::smallMode()
     writeByte(START);      // 0x69
     writeByte(MINUSCULES); // 0x45
     // Acquittement
-    std::cout << "before workingMode\n";
     byte r = workingMode();
-    std::cout << "after workingMode\n";
     return r; // Renvoie un octet
 }
 /*--------------------------------------------------------------------*/
