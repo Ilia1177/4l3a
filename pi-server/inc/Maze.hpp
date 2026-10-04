@@ -1,5 +1,6 @@
 #ifndef MAZE_HPP
 #define MAZE_HPP
+#include <atomic>
 #include "Minitel1B_Hard.h"
 #include "SessionManager.hpp"
 

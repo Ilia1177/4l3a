@@ -1,4 +1,5 @@
 #include "Maze.hpp"
+#include <sstream>
 #include <random>
 
 Maze::Maze(Minitel* m): _time_left(0), _level(0), _minitel(m), _passcode("") 
@@ -16,6 +17,9 @@ void Maze::update_play_time(SessionManager& session) {
 	if (left) {
 		std::string time = std::to_string(left);
 		_minitel->println00(time);
+		if (left < 2) {
+			_minitel->println("TIME OUT");
+		}
 	}
 }
 
@@ -68,6 +72,8 @@ int Maze::init_minitel()
     machine->newScreen();
     reponse = machine->echo(false);
 	if (reponse == 0x44) {
+		_minitel->modeVideotex();  // Mode Mixte => Mode Vidéotex 40 colonnes
+		_minitel->noCursor();
 		_minitel->smallMode();
   		_minitel->extendedKeyboard();  // Clavier étendu
 		return 0;
