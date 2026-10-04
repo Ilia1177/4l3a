@@ -75,7 +75,7 @@ int main()
 	std::thread timeTicker([maze]() {
 		while (!g_signal) {
 			{
-				maze->update_play_time(g_session);
+					maze->update_play_time(g_session);
 			}
 			std::this_thread::sleep_for(std::chrono::seconds(1));
 		}

@@ -14,7 +14,7 @@ public:
     void init();
     void enter();
     bool verify_pass(std::string code);
-    void set_pass(std::string code);
+    void set_pass();
     int getLevel() const;
     void nextLevel();
 	void update_play_time(SessionManager& session);

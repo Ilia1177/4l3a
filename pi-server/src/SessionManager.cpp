@@ -7,10 +7,6 @@ void log_line(const std::string& line);
 
 SessionManager::SessionManager(void): kTimeoutSeconds_(60) {};
 
-int SessionManager::get_time_left() {
-	return kTimeoutSeconds_;
-}
-
 std::optional<std::string> SessionManager::tryJoin() {
     std::lock_guard<std::mutex> lock(mtx_);
     reapIfExpired();
@@ -20,6 +16,7 @@ std::optional<std::string> SessionManager::tryJoin() {
     token_ = generateToken();
 	log_line("Token generated: " + token_ + "\n");
     lastActivity_ = std::chrono::steady_clock::now();
+	sessionStart_ = lastActivity_;
     return token_;
 }
 
@@ -54,6 +51,15 @@ void SessionManager::setTimeout(int seconds) {
     std::lock_guard<std::mutex> lock(mtx_);
     kTimeoutSeconds_ = seconds;
 }
+
+int SessionManager::get_time_left() {
+    std::lock_guard<std::mutex> lock(mtx_);
+    if (token_.empty()) return 0;
+    auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - sessionStart_).count();
+    int remaining = kTimeoutSeconds_ - static_cast<int>(elapsed);
+    return remaining > 0 ? remaining : 0;
+}
+
 void SessionManager::reapIfExpired() {
     if (token_.empty()) return;
     auto idle = std::chrono::steady_clock::now() - lastActivity_;

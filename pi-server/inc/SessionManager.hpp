@@ -30,6 +30,7 @@ private:
     std::mutex mtx_;
     std::string token_;
     std::chrono::steady_clock::time_point lastActivity_;
+    std::chrono::steady_clock::time_point sessionStart_;
     int kTimeoutSeconds_;
 
     void reapIfExpired();

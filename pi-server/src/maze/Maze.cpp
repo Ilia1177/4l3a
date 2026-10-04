@@ -12,14 +12,23 @@ Maze::~Maze() { if (_minitel) delete _minitel; }
 
 void Maze::update_play_time(SessionManager& session) {
 	std::lock_guard<std::mutex> lock(_mtx);
-	std::string time = std::to_string(session.get_time_left());
-	_minitel->println00(time);
+	int left = session.get_time_left();
+	if (left) {
+		std::string time = std::to_string(left);
+		_minitel->println00(time);
+	}
 }
 
-void Maze::set_pass(std::string code)
+void Maze::set_pass()
 {
+    static std::random_device rd;
+    static std::mt19937_64 gen(rd());
+    std::uniform_int_distribution<uint8_t> dist;
+    std::ostringstream oss;
+
 	std::lock_guard<std::mutex> lock(_mtx);
-	_passcode = code;
+    oss << std::hex << dist(gen);
+	_passcode = oss.str();
 }
 
 void Maze::game_over(std::string msg)
@@ -68,13 +77,7 @@ int Maze::init_minitel()
 
 void Maze::init() 
 {
-    static std::random_device rd;
-    static std::mt19937_64 gen(rd());
-    std::uniform_int_distribution<uint8_t> dist;
-    std::ostringstream oss;
-
-    oss << std::hex << dist(gen);
-	set_pass(oss.str());
+	set_pass();
 	_level = 1;
 }
 
