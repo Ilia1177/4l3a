@@ -20,7 +20,6 @@ std::string tokenFromRequest(const httplib::Request& req)
 
 void minitelRoutes(httplib::Server& srv, Maze& maze)
 {
-
     srv.Post("/api/minitel/validSession", [&maze](const httplib::Request& req, httplib::Response& res) {
 			if(!g_session.validate(tokenFromRequest(req))) {
 				res.status = 401;
@@ -39,7 +38,6 @@ void minitelRoutes(httplib::Server& srv, Maze& maze)
             return;
         }
 		{
-			// std::lock_guard<std::mutex> lock(g_minitel_mutex);
 			maze.init();
 			log_line("Minitel init, session joined");
 		}
@@ -62,11 +60,8 @@ void minitelRoutes(httplib::Server& srv, Maze& maze)
             res.set_content("{\"error\":\"not your session\"}", "application/json");
             return;
         }
-		{
-			// std::lock_guard<std::mutex> lock(g_minitel_mutex);
-			maze.print_code();
-			log_line("Code printed on minitel device");
-		}
+		maze.print_code();
+		log_line("Code printed on minitel device: " + maze.get_code());
         res.set_content("{\"status\":\"printed\"}", "application/json");
     });
 
@@ -89,7 +84,6 @@ void minitelRoutes(httplib::Server& srv, Maze& maze)
         oss << "[" << timestamp_now() << "] passcode submitted: " << code;
         log_line(oss.str());
 		{
-			// std::lock_guard<std::mutex> lock(g_minitel_mutex);
 			if(!maze.verify_pass(code)) {
 				maze.game_over("Wrong password...");
         		log_line("Wrong passcode submitted");
