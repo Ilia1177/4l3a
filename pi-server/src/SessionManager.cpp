@@ -6,6 +6,11 @@
 void log_line(const std::string& line);
 
 SessionManager::SessionManager(void): kTimeoutSeconds_(60) {};
+
+int SessionManager::get_time_left() {
+	return kTimeoutSeconds_;
+}
+
 std::optional<std::string> SessionManager::tryJoin() {
     std::lock_guard<std::mutex> lock(mtx_);
     reapIfExpired();
@@ -39,10 +44,12 @@ void SessionManager::release(const std::string& token) {
         token_.clear();
     }
 }
+
 void SessionManager::addTimeout(int seconds) {
     std::lock_guard<std::mutex> lock(mtx_);
     kTimeoutSeconds_ += seconds;
 }
+
 void SessionManager::setTimeout(int seconds) {
     std::lock_guard<std::mutex> lock(mtx_);
     kTimeoutSeconds_ = seconds;

@@ -72,6 +72,15 @@ int main()
         svr.stop();
     });
 
+	std::thread timeTicker([maze]() {
+		while (!g_signal) {
+			{
+				maze->update_play_time(g_session);
+			}
+			std::this_thread::sleep_for(std::chrono::seconds(1));
+		}
+	});
+
     // Hook that fires on every single request, before it's handled.
     svr.set_pre_routing_handler([](const httplib::Request& req, httplib::Response&) {
         uint64_t count = g_visit_count.fetch_add(1, std::memory_order_relaxed) + 1;
@@ -91,8 +100,9 @@ int main()
     std::cout << "Listening on http://" << host << ":" << port << " (behind Caddy)\n";
     svr.listen(host, port);
     watcher.join();
+	timeTicker.join();
 	std::cout << "Exit server with status: " << status << std::endl;
     delete maze;
-    delete minitel;
+    // delete minitel;
     return status;
 }

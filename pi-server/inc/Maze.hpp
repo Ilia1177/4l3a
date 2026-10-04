@@ -1,6 +1,7 @@
 #ifndef MAZE_HPP
 #define MAZE_HPP
 #include "Minitel1B_Hard.h"
+#include "SessionManager.hpp"
 
 class Maze {
 public:
@@ -16,11 +17,14 @@ public:
     void set_pass(std::string code);
     int getLevel() const;
     void nextLevel();
+	void update_play_time(SessionManager& session);
 
 private:
-    size_t  _level;
+	int _time_left;
+	std::atomic<int> _level;
     Minitel* _minitel;
     std::string _passcode;
+	mutable std::mutex _mtx;
 };
 
 #endif // MAZE_HPP

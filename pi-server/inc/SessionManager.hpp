@@ -24,6 +24,8 @@ public:
 
 	// Add timeout in sec
 	void addTimeout(int seconds);
+
+	int get_time_left();
 private:
     std::mutex mtx_;
     std::string token_;

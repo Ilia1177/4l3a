@@ -7,7 +7,7 @@
 #include <iostream>
 #include <cstdint>
 
-static std::mutex g_minitel_mutex;
+// static std::mutex g_minitel_mutex;
 extern SessionManager g_session;
 extern std::atomic<uint64_t> g_visit_count;
 
@@ -39,7 +39,7 @@ void minitelRoutes(httplib::Server& srv, Maze& maze)
             return;
         }
 		{
-			std::lock_guard<std::mutex> lock(g_minitel_mutex);
+			// std::lock_guard<std::mutex> lock(g_minitel_mutex);
 			maze.init();
 			log_line("Minitel init, session joined");
 		}
@@ -63,7 +63,7 @@ void minitelRoutes(httplib::Server& srv, Maze& maze)
             return;
         }
 		{
-			std::lock_guard<std::mutex> lock(g_minitel_mutex);
+			// std::lock_guard<std::mutex> lock(g_minitel_mutex);
 			maze.print_code();
 			log_line("Code printed on minitel device");
 		}
@@ -89,7 +89,7 @@ void minitelRoutes(httplib::Server& srv, Maze& maze)
         oss << "[" << timestamp_now() << "] passcode submitted: " << code;
         log_line(oss.str());
 		{
-			std::lock_guard<std::mutex> lock(g_minitel_mutex);
+			// std::lock_guard<std::mutex> lock(g_minitel_mutex);
 			if(!maze.verify_pass(code)) {
 				maze.game_over("Wrong password...");
         		log_line("Wrong passcode submitted");
