@@ -35,6 +35,10 @@ void Maze::set_pass()
 	_passcode = oss.str();
 }
 
+std::string Maze::get_code() {
+	return _passcode;
+}
+
 void Maze::game_over(std::string msg)
 {
 	std::lock_guard<std::mutex> lock(_mtx);
