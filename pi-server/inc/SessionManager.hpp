@@ -16,6 +16,7 @@ public:
     // Check a request's token is the current owner; refreshes activity if valid.
     bool validate(const std::string& token);
 
+	bool is_valid();
     // Explicit release (e.g. user clicks "leave" or closes the tab cleanly).
     void release(const std::string& token);
 	void invalidate();

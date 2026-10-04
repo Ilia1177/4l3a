@@ -74,13 +74,14 @@ int main()
 
 	std::thread timeTicker([maze]() {
 		while (!g_signal) {
-			{
-					if(g_session.get_time_left() > 0) {
-						maze->update_play_time(g_session);
-					} else {
-						g_session.invalidate();
-					}
+		{
+			if(g_session.is_valid() && g_session.get_time_left() > 0) {
+				maze->update_play_time(g_session);
+			} else if (g_session.is_valid()) {
+				maze->game_over("Time OUT !")
+				g_session.invalidate();
 			}
+		}
 			std::this_thread::sleep_for(std::chrono::seconds(1));
 		}
 	});

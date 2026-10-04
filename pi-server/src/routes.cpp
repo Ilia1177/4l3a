@@ -86,6 +86,7 @@ void minitelRoutes(httplib::Server& srv, Maze& maze)
 		{
 			if(!maze.verify_pass(code)) {
 				maze.game_over("Wrong password...");
+				maze.init();
         		log_line("Wrong passcode submitted");
 				res.status = 401; // Unauthorized
         		res.set_content("{\"error\":\"wrong passcode\"}", "application/json");

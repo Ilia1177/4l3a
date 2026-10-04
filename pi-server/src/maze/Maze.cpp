@@ -14,13 +14,8 @@ Maze::~Maze() { if (_minitel) delete _minitel; }
 void Maze::update_play_time(SessionManager& session) {
 	std::lock_guard<std::mutex> lock(_mtx);
 	int left = session.get_time_left();
-	if (left > 1) {
-		std::string time = std::to_string(left);
-		_minitel->println00(time);
-
-	} else {
-		_minitel->println("TIME OUT");
-	}
+	std::string time = std::to_string(left);
+	_minitel->println00(time);
 }
 
 void ascii_noise(Minitel* minitel, int amount) {
@@ -61,9 +56,9 @@ std::string Maze::get_code() {
 void Maze::game_over(std::string msg)
 {
 	std::lock_guard<std::mutex> lock(_mtx);
+	_minitel->clearScreen();
 	ascii_noise(_minitel, 150);
 	_minitel->moveCursorXY(7, 12);
-	_minitel->clearScreen();
 	_minitel->println(msg);
 	_minitel->println("YOU LOSE");
 	_level = 1;

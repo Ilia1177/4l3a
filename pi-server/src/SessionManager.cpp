@@ -40,6 +40,12 @@ void SessionManager::invalidate() {
 	kTimeoutSeconds_ = 60;
 }
 
+bool SessionManager::is_valid() {
+	if (token_.empty())
+		return false;
+	return true;
+}
+
 void SessionManager::release(const std::string& token) {
     std::lock_guard<std::mutex> lock(mtx_);
     if (token == token_) {
