@@ -18,7 +18,7 @@ public:
 
     // Explicit release (e.g. user clicks "leave" or closes the tab cleanly).
     void release(const std::string& token);
-
+	void invalidate();
     // Set timeout in seconds (default 60)
     void setTimeout(int seconds);
 

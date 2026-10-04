@@ -34,10 +34,16 @@ bool SessionManager::validate(const std::string& token)
     return true;
 }
 
+void SessionManager::invalidate() {
+    std::lock_guard<std::mutex> lock(mtx_);
+	token_.clear();
+	kTimeoutSeconds_ = 60;
+}
+
 void SessionManager::release(const std::string& token) {
     std::lock_guard<std::mutex> lock(mtx_);
     if (token == token_) {
-		log_line("release() called with token=" + token + " current=" + token_);
+		log_line("release() called without token");
         token_.clear();
     }
 }

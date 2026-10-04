@@ -77,6 +77,8 @@ int main()
 			{
 					if(g_session.get_time_left() > 0) {
 						maze->update_play_time(g_session);
+					} else {
+						g_session.invalidate();
 					}
 			}
 			std::this_thread::sleep_for(std::chrono::seconds(1));
