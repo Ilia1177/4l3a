@@ -44,8 +44,7 @@ int main()
 		}
 	}
 	if (attempt < 0) {
-		std::cerr << "Error initialisation minitel\n";
-		return 1;
+		std::cerr << "Error initialisation, minitel not available\n";
 	}
 
     // Serve everything in ./public as static files (index.html, css, js...)
