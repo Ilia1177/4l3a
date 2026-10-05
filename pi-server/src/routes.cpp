@@ -93,7 +93,7 @@ void minitelRoutes(httplib::Server& srv, Maze& maze)
 				return;
 			}
         	log_line("Enter hazardous Maze !");
-			maze.enter();
+			maze.game_start();
 		}
         res.set_content("{\"status\":\"passcode is correct\"}", "application/json");
     });

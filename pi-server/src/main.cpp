@@ -22,18 +22,16 @@ void handleSignal(int signal) {
 
 int main() 
 {
-	std::cout << "START 4l3A SERVER v" << VERSION;
+	std::cout << "START HaZ4rDou$ SERVER v" << VERSION;
 	std::cout << std::endl;
     httplib::Server svr;
     Minitel* minitel = nullptr;
     Maze* maze = nullptr;
-    HardwareSerial serial;
 	int status = 0;
 
     std::signal(SIGINT, handleSignal);
     std::signal(SIGTERM, handleSignal);
 
-    serial.openPort("/dev/ttyUSB0");
     minitel = new Minitel(serial);
 
 	int attempt = 0;
@@ -78,7 +76,7 @@ int main()
 			if(g_session.is_valid() && g_session.get_time_left() > 0) {
 				maze->update_play_time(g_session);
 			} else if (g_session.is_valid()) {
-				maze->game_over("Time OUT !")
+				maze->game_over("Time OUT !");
 				g_session.invalidate();
 			}
 		}
@@ -108,6 +106,5 @@ int main()
 	timeTicker.join();
 	std::cout << "Exit server with status: " << status << std::endl;
     delete maze;
-    // delete minitel;
     return status;
 }

@@ -13,7 +13,7 @@ public:
 	void game_over(std::string c);
 	void print_code();
     void init();
-    void enter();
+    void game_start();
     bool verify_pass(std::string code);
     void set_pass();
 	std::string get_code();
@@ -24,6 +24,7 @@ public:
 private:
 	int _time_left;
 	std::atomic<int> _level;
+    HardwareSerial _serial;
     Minitel* _minitel;
     std::string _passcode;
 	mutable std::mutex _mtx;

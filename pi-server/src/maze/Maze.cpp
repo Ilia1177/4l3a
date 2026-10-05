@@ -2,6 +2,8 @@
 #include <sstream>
 #include <random>
 
+#define MINITEL_PATH "/dev/ttyUSB0"
+
 Maze::Maze(Minitel* m): _time_left(0), _level(0), _minitel(m), _passcode("") 
 {
 	if(init_minitel() < 0) {
@@ -14,8 +16,9 @@ Maze::~Maze() { if (_minitel) delete _minitel; }
 void Maze::update_play_time(SessionManager& session) {
 	std::lock_guard<std::mutex> lock(_mtx);
 	int left = session.get_time_left();
-	std::string time = std::to_string(left);
-	_minitel->println00(time);
+	std::ostringstream time;
+	time << std::setfill('0') << std::setw(2) << left;
+	_minitel->println00(time.str());
 }
 
 void ascii_noise(Minitel* minitel, int amount) {
@@ -52,6 +55,23 @@ std::string Maze::get_code() {
 	return _passcode;
 }
 
+void print_center_x(Minitel* minitel, std::string msg, int x = 40) 
+{
+	const int msglen = msg.length();
+
+	int start = minitel->getCursorX();
+	const int screenlen = x - start;
+	if (msglen > screenlen) {
+		minitel->println(msg);
+		return;
+	}
+	int space = (screenlen - msglen) / 2;
+	if (space > 0) {
+		minitel->printChar(' ');
+		minitel->repeat(space - 1);
+	}
+	minitel->println(msg);
+}
 
 void Maze::game_over(std::string msg)
 {
@@ -64,11 +84,12 @@ void Maze::game_over(std::string msg)
 	_level = 1;
 }
 
-void Maze::enter() {
+void Maze::game_start() {
 	std::lock_guard<std::mutex> lock(_mtx);
 	switch(_level) {
-		case 0:
-			return;
+		case 1:
+			ascii_noise(_minitel, 200);
+			break;
 		default:
 			std::string msg = "you are at level: " + std::to_string(getLevel());
 			_minitel->clearScreen();
@@ -85,12 +106,15 @@ void Maze::print_code() {
 
 int Maze::init_minitel() 
 {
-    Minitel* machine = _minitel;
+	std::lock_guard<std::mutex> lock(_mtx);
     byte     reponse;
 
-	std::lock_guard<std::mutex> lock(_mtx);
-    machine->newScreen();
-    reponse = machine->echo(false);
+    if (!_serial.openPort(MINITEL_PATH)) {
+		throw std::runtime_error("serial port: not opened");
+	}
+	_minitel = new Minitel(_serial);
+    _minitel->newScreen();
+    reponse = _minitel->echo(false);
 	if (reponse == 0x44) {
 		_minitel->modeVideotex();  // Mode Mixte => Mode Vidéotex 40 colonnes
 		_minitel->noCursor();
