@@ -45,7 +45,6 @@ int main()
 	}
 	if (attempt < 0) {
 		std::cerr << "Error initialisation minitel\n";
-		delete minitel;
 		return 1;
 	}
 
@@ -53,7 +52,6 @@ int main()
     auto ret = svr.set_mount_point("/", "./public");
     if (!ret) {
         std::cerr << "Couldn't mount ./public — does the folder exist next to the binary?\n";
-		delete minitel;
         return 1;
     }
 
