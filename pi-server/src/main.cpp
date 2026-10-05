@@ -25,20 +25,17 @@ int main()
 	std::cout << "START HaZ4rDou$ SERVER v" << VERSION;
 	std::cout << std::endl;
     httplib::Server svr;
-    Minitel* minitel = nullptr;
     Maze* maze = nullptr;
 	int status = 0;
 
     std::signal(SIGINT, handleSignal);
     std::signal(SIGTERM, handleSignal);
 
-    minitel = new Minitel(serial);
-
 	int attempt = 0;
 	int max_attempt = 10;
 	while(!maze && !g_signal && attempt < max_attempt) {
 		try {
-			maze = new Maze(minitel);
+			maze = new Maze();
 			std::cout << "Minitel initialisé.\n";
 		} catch (std::runtime_error &e) {
 			std::cerr << "Error" << e.what() << "\n";

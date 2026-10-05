@@ -4,7 +4,7 @@
 
 #define MINITEL_PATH "/dev/ttyUSB0"
 
-Maze::Maze(Minitel* m): _time_left(0), _level(0), _minitel(m), _passcode("") 
+Maze::Maze(): _time_left(0), _level(0), _minitel(nullptr), _passcode("") 
 {
 	if(init_minitel() < 0) {
 		throw std::runtime_error("Minitel init fail");

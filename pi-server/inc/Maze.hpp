@@ -6,7 +6,7 @@
 
 class Maze {
 public:
-    Maze(Minitel* minitel);
+    Maze();
     ~Maze(void);
 
 	int init_minitel();
