@@ -31,20 +31,21 @@ int main()
     std::signal(SIGINT, handleSignal);
     std::signal(SIGTERM, handleSignal);
 
-	int attempt = 0;
+	int attempt = 1;
 	int max_attempt = 10;
 	while(!maze && !g_signal && attempt < max_attempt) {
 		try {
 			maze = new Maze();
-			std::cout << "Minitel initialisé.\n";
+			std::cout << "Minitel initialisé. attempt: " << attempt << "\n";
 		} catch (std::runtime_error &e) {
-			std::cerr << "Error" << e.what() << "\n";
+			std::cerr << "Error" << e.what() << "attempt: " << attempt << "\n";
 			maze = nullptr;
-			attempt--;
+			attempt++;
 		}
 	}
 	if (attempt < 0) {
 		std::cerr << "Error initialisation, minitel not available\n";
+		return 1;
 	}
 
     // Serve everything in ./public as static files (index.html, css, js...)
