@@ -47,7 +47,6 @@ void Maze::set_pass()
     std::uniform_int_distribution<uint64_t> dist;
     std::ostringstream oss;
 
-	std::lock_guard<std::mutex> lock(_mtx);
     oss << std::hex << dist(gen);
 	_passcode = oss.str();
 }

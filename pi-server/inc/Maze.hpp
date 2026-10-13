@@ -18,13 +18,13 @@ public:
     void init();
     void game_start();
     bool verify_pass(std::string code);
-    void set_pass();
 	std::string get_code();
     int getLevel() const;
     void nextLevel();
 	void update_play_time(SessionManager& session);
 
 private:
+    void set_pass();
 	int _time_left;
 	std::atomic<int> _level;
     HardwareSerial _serial;
