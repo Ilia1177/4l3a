@@ -6,7 +6,7 @@
 #include <csignal>
 #include <thread>
 #include <atomic>
-
+#include "MinitelController.hpp"
 #define VERSION "1.1";
 
 extern void registerRoutes(httplib::Server& srv, Maze& maze);
@@ -47,6 +47,7 @@ int main()
 		std::cerr << "Error initialisation, minitel not available\n";
 		return 1;
 	}
+	MinitelController controller(g_session, *maze);
 
     // Serve everything in ./public as static files (index.html, css, js...)
     auto ret = svr.set_mount_point("/", "./public");
@@ -73,6 +74,8 @@ int main()
 			} else if (g_session.is_valid()) {
 				maze->game_over("Time OUT !");
 				g_session.invalidate();
+				std::this_thread::sleep_for(std::chrono::seconds(30));
+				maze->init();
 			}
 		}
 			std::this_thread::sleep_for(std::chrono::seconds(1));
@@ -90,6 +93,7 @@ int main()
         return httplib::Server::HandlerResponse::Unhandled;
     });
 
+    controller.registerRoutes(svr);
     registerRoutes(svr, *maze);
 
     const std::string host = "127.0.0.1";

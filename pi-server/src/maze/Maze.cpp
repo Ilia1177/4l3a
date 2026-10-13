@@ -128,7 +128,11 @@ int Maze::init_minitel()
 
 void Maze::init() 
 {
+	std::lock_guard<std::mutex> lock(_mtx);
 	set_pass();
+	_minitel->clearScreen();
+	ascii_noise(_minitel, 200);
+	_minitel->print("Ask your code at 4l3a.duckdns.org");
 	_level = 1;
 }
 

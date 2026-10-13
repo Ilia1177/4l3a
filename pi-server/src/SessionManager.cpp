@@ -81,7 +81,6 @@ void SessionManager::reapIfExpired() {
     }
 }
 
-
 std::string SessionManager::generateToken() {
     static std::random_device rd;
     static std::mt19937_64 gen(rd());

@@ -20,6 +20,7 @@ FetchContent_MakeAvailable(httplib)
 find_package(PNG REQUIRED)
 find_package(Threads REQUIRED)
 add_executable(server
+	src/MinitelController.cpp
     src/main.cpp
     src/SessionManager.cpp
     src/routes.cpp

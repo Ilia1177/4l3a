@@ -35,7 +35,6 @@ private:
     int kTimeoutSeconds_;
 
     void reapIfExpired();
-
     std::string generateToken();
 };
 
