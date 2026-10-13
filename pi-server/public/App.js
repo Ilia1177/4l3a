@@ -7,6 +7,7 @@ let sessionToken = null;
 // Session management
 // ---------------------------------------------------------------------------
 function join() {
+  console.log("Join session...")
   return fetch('/api/minitel/join', { method: 'POST' })
     .then(r => r.json().then(d => ({ ok: r.ok, d })))
     .then(({ ok, d }) => {

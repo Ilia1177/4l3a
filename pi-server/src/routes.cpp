@@ -43,7 +43,6 @@ extern std::atomic<uint64_t> g_visit_count;
 //
 void registerRoutes(httplib::Server& srv, Maze& maze)
 {
-	// minitelRoutes(srv, maze);
     // Status endpoint with visit counter
     srv.Get("/api/status", [](const httplib::Request&, httplib::Response& res) {
         std::ostringstream json;

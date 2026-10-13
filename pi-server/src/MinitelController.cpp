@@ -53,6 +53,7 @@ void MinitelController::validSession(const httplib::Request& req, httplib::Respo
 
 void MinitelController::join(const httplib::Request& req, httplib::Response& res)
 {
+	log_line(" try join");
     auto token = session_.tryJoin();
     if (!token) {
         res.status = 409; // Conflict — someone's already playing
