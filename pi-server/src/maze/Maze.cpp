@@ -44,6 +44,8 @@ void Maze::wakeup() {
 	_minitel->printChar('\0');
 }
 
+std::string get_random_word();
+
 void Maze::set_pass()
 {
     static std::random_device rd;
@@ -52,7 +54,8 @@ void Maze::set_pass()
     std::ostringstream oss;
 
     oss << std::hex << dist(gen);
-	_passcode = oss.str();
+	// _passcode = oss.str();
+	_passcode = get_random_word();
 }
 
 std::string Maze::get_code()
@@ -106,10 +109,12 @@ void Maze::print_code() {
 	_minitel->clearScreen();
 	ascii_noise(_minitel, 50);
 	_minitel->moveCursorXY(10, 10);
-	_minitel->println("You have asked for a pass code: ");
+	machine_print_line_centered(_minitel, "You have asked for a pass code: ");
 	_minitel->moveCursorRight(10);
 	_minitel->attributs(INVERSION_FOND);
+	_minitel->attributs(CLIGNOTEMENT);
 	_minitel->println(_passcode);
+	_minitel->attributs(FIXE);
 	_minitel->attributs(FOND_NORMAL);
 }
 

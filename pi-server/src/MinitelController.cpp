@@ -10,7 +10,6 @@ MinitelController::MinitelController(SessionManager& session, Maze& maze)
 std::string tokenFromRequest(const httplib::Request& req) 
 {
     std::string tok = req.get_header_value("X-Session-Token");
-    log_line("Token extract: " + tok + "\n");
     return tok;
 }
 
