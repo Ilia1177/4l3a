@@ -76,7 +76,6 @@ int main()
 	});
 
 
-
     registerRoutes(svr, *maze, controller);
 
     const std::string host = "127.0.0.1";

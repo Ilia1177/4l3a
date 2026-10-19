@@ -137,6 +137,7 @@ void Maze::init()
 	std::lock_guard<std::mutex> lock(_mtx);
 	set_pass();
 	_minitel->clearScreen();
+	ascii_noise(_minitel, 20);
 	_minitel->moveCursorXY(10, 15);
 	machine_print_line_centered(_minitel, "Welcome to HAZARDOUS ÉDITORIAL LAB");
 	machine_print_line_centered(_minitel, "Get your passcode at: ");
