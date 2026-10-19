@@ -67,7 +67,7 @@ void Maze::game_over(std::string msg)
 {
 	std::lock_guard<std::mutex> lock(_mtx);
 	ascii_noise(_minitel, 150);
-	_minitel->moveCursorXY(10, 15);
+	_minitel->moveCursorXY(10, 10);
 	machine_print_line_centered(_minitel, msg);
 	machine_print_line_centered(_minitel, "YOU LOSE !");
 	_level = 0;
@@ -103,7 +103,9 @@ void Maze::play_game() {
 
 void Maze::print_code() {
 	std::lock_guard<std::mutex> lock(_mtx);
-	_minitel->moveCursorXY(10, 15);
+	_minitel->clearScreen();
+	ascii_noise(_minitel, 50);
+	_minitel->moveCursorXY(10, 10);
 	_minitel->println("You have asked for a pass code: ");
 	_minitel->moveCursorRight(10);
 	_minitel->attributs(INVERSION_FOND);
@@ -138,7 +140,7 @@ void Maze::init()
 	set_pass();
 	_minitel->clearScreen();
 	ascii_noise(_minitel, 20);
-	_minitel->moveCursorXY(10, 15);
+	_minitel->moveCursorXY(10, 10);
 	machine_print_line_centered(_minitel, "Welcome to HAZARDOUS ÉDITORIAL LAB");
 	machine_print_line_centered(_minitel, "Get your passcode at: ");
 	_minitel->attributs(INVERSION_FOND);

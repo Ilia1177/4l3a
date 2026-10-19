@@ -38,7 +38,7 @@ int main()
 			std::cout << "Minitel initialisé a l'essai " << attempt << "\n";
 			break;
 		} catch (std::runtime_error &e) {
-			std::cerr << "Error" << e.what() << "attempt: " << attempt << "\n";
+			std::cerr << "Error" << e.what() << " on attempt " << attempt << "\n";
 			attempt++;
 		}
 	}
