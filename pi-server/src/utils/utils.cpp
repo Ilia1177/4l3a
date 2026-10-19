@@ -1,6 +1,18 @@
 #include "Minitel1B_Hard.h"
 #include <fstream>
 
+void machine_print_line_centered(Minitel* minitel, std::string line)
+{
+	const int col = 40;
+	const int len = line.size();
+	const int posX = minitel->getCursorX();
+	int space = (col - len) / 2;
+
+	minitel->moveCursorReturn(0);
+	minitel->moveCursorRight(space);
+	minitel->println(line);
+}
+
 void machine_print_infos(Minitel* machine)
 {
 
@@ -19,7 +31,6 @@ void machine_print_infos(Minitel* machine)
 
 void input_box(Minitel* machine)
 {
-
 	static std::string input;
 
 	machine->moveCursorXY(1, 24);
@@ -62,7 +73,7 @@ int print_file(Minitel* machine, const std::string &path)
 	}
 	while(std::getline(fichier, ligne)) {
 		machine->println(ligne);
-		usleep(1100);
+		usleep(100);
 	}
 	fichier.close();
 	return 0;

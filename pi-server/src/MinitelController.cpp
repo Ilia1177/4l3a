@@ -115,7 +115,7 @@ void MinitelController::submitCode(const httplib::Request& req, httplib::Respons
             return;
         }
         log_line("Enter hazardous Maze !");
-        maze_.game_start();
+        maze_.play_game();
     }
     res.set_content("{\"status\":\"passcode is correct\"}", "application/json");
 }

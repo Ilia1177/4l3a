@@ -18,7 +18,7 @@ void Maze::update_play_time(SessionManager& session) {
 	std::lock_guard<std::mutex> lock(_mtx);
 	int left = session.get_time_left();
 	std::ostringstream time;
-	time << std::setfill('0') << std::setw(2) << left;
+	time << std::setfill('0') << std::setw(3) << left;
 	_minitel->println00(time.str());
 }
 
@@ -51,44 +51,43 @@ void Maze::set_pass()
 	_passcode = oss.str();
 }
 
-std::string Maze::get_code() {
+std::string Maze::get_code()
+{
+	std::lock_guard<std::mutex> lock(_mtx);
 	return _passcode;
 }
 
-void print_center_x(Minitel* minitel, std::string msg, int x = 40) 
-{
-	const int msglen = msg.length();
-
-	int start = minitel->getCursorX();
-	const int screenlen = x - start;
-	if (msglen > screenlen) {
-		minitel->println(msg);
-		return;
-	}
-	int space = (screenlen - msglen) / 2;
-	if (space > 0) {
-		minitel->printChar(' ');
-		minitel->repeat(space - 1);
-	}
-	minitel->println(msg);
-}
+void machine_print_line_centered(Minitel* minitel, std::string line);
 
 void Maze::game_over(std::string msg)
 {
 	std::lock_guard<std::mutex> lock(_mtx);
-	_minitel->clearScreen();
 	ascii_noise(_minitel, 150);
-	_minitel->moveCursorXY(7, 12);
-	_minitel->println(msg);
-	_minitel->println("YOU LOSE");
-	_level = 1;
+	_minitel->moveCursorXY(10, 15);
+	machine_print_line_centered(_minitel, msg);
+	machine_print_line_centered(_minitel, "YOU LOSE !");
+	_level = 0;
 }
 
-void Maze::game_start() {
+void Maze::level_1() 
+{
+	ascii_noise(_minitel, 50);
+	_minitel->println("What do you know about randomness ?");
+}
+
+void Maze::level_2() 
+{
+	ascii_noise(_minitel, 50);
+}
+
+void Maze::play_game() {
 	std::lock_guard<std::mutex> lock(_mtx);
 	switch(_level) {
 		case 1:
-			ascii_noise(_minitel, 200);
+			level_1();
+			break;
+		case 2:
+			level_2();
 			break;
 		default:
 			std::string msg = "you are at level: " + std::to_string(getLevel());
@@ -100,8 +99,12 @@ void Maze::game_start() {
 
 void Maze::print_code() {
 	std::lock_guard<std::mutex> lock(_mtx);
-	_minitel->clearScreen();
+	_minitel->moveCursorXY(10, 15);
+	_minitel->println("You have asked for a pass code: ");
+	_minitel->moveCursorRight(10);
+	_minitel->attributs(INVERSION_FOND);
 	_minitel->println(_passcode);
+	_minitel->attributs(FOND_NORMAL);
 }
 
 int Maze::init_minitel() 
@@ -130,9 +133,13 @@ void Maze::init()
 	std::lock_guard<std::mutex> lock(_mtx);
 	set_pass();
 	_minitel->clearScreen();
-	ascii_noise(_minitel, 200);
-	_minitel->print("Ask your code at 4l3a.duckdns.org");
-	_level = 1;
+	_minitel->moveCursorXY(10, 15);
+	machine_print_line_centered(_minitel, "Welcome to HAZARDOUS ÉDITORIAL LAB");
+	machine_print_line_centered(_minitel, "Get your passcode at: ");
+	_minitel->attributs(INVERSION_FOND);
+	machine_print_line_centered(_minitel, "4l3a.duckdns.org");
+	_minitel->attributs(FOND_NORMAL);
+	_level = 0;
 }
 
 bool Maze::verify_pass(std::string code) {

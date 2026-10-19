@@ -31,21 +31,17 @@ int main()
     std::signal(SIGINT, handleSignal);
     std::signal(SIGTERM, handleSignal);
 
+	maze = new Maze();
 	int attempt = 1;
-	int max_attempt = 10;
-	while(!maze && !g_signal && attempt < max_attempt) {
+	while(!g_signal && attempt < 10) {
 		try {
-			maze = new Maze();
-			std::cout << "Minitel initialisé. attempt: " << attempt << "\n";
+			maze->init_minitel();
+			std::cout << "Minitel initialisé a l'essai " << attempt << "\n";
+			break;
 		} catch (std::runtime_error &e) {
 			std::cerr << "Error" << e.what() << "attempt: " << attempt << "\n";
-			maze = nullptr;
 			attempt++;
 		}
-	}
-	if (attempt < 0) {
-		std::cerr << "Error initialisation, minitel not available\n";
-		return 1;
 	}
 	MinitelController controller(g_session, *maze);
 
@@ -68,16 +64,14 @@ int main()
 
 	std::thread timeTicker([maze]() {
 		while (!g_signal) {
-		{
-			if(g_session.is_valid() && g_session.get_time_left() > 0) {
+			if(g_session.is_valid() && g_session.get_time_left() >= 0) {
 				maze->update_play_time(g_session);
 			} else if (g_session.is_valid()) {
 				maze->game_over("Time OUT !");
 				g_session.invalidate();
-				std::this_thread::sleep_for(std::chrono::seconds(30));
+				std::this_thread::sleep_for(std::chrono::seconds(10));
 				maze->init();
 			}
-		}
 			std::this_thread::sleep_for(std::chrono::seconds(1));
 		}
 	});

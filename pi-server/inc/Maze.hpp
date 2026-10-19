@@ -12,11 +12,15 @@ public:
     Maze();
     ~Maze(void);
 
+	void level_1();
+	void level_2();
+	void level_3();
+	void level_4();
 	int init_minitel();
 	void game_over(std::string c);
 	void print_code();
     void init();
-    void game_start();
+    void play_game();
     bool verify_pass(std::string code);
 	std::string get_code();
     int getLevel() const;
