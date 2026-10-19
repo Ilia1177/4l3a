@@ -7,9 +7,8 @@
 #include <thread>
 #include <atomic>
 #include "MinitelController.hpp"
+#include "routes.hpp"
 #define VERSION "1.1";
-
-extern void registerRoutes(httplib::Server& srv, Maze& maze);
 
 // Global state shared with routes
 SessionManager g_session;
@@ -76,19 +75,9 @@ int main()
 		}
 	});
 
-    // Hook that fires on every single request, before it's handled.
-    svr.set_pre_routing_handler([](const httplib::Request& req, httplib::Response&) {
-        uint64_t count = g_visit_count.fetch_add(1, std::memory_order_relaxed) + 1;
-        // std::ostringstream oss;
-		//       oss << "[" << __DATE__ << " " << __TIME__ << "] visit #" << count
-		//           << " from " << req.remote_addr
-		//           << " -> " << req.path;
-		// log_line(oss.str());
-        return httplib::Server::HandlerResponse::Unhandled;
-    });
 
-    controller.registerRoutes(svr);
-    registerRoutes(svr, *maze);
+
+    registerRoutes(svr, *maze, controller);
 
     const std::string host = "127.0.0.1";
     const int port = 8080;

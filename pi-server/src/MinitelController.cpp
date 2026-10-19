@@ -53,7 +53,7 @@ void MinitelController::validSession(const httplib::Request& req, httplib::Respo
 
 void MinitelController::join(const httplib::Request& req, httplib::Response& res)
 {
-	log_line(" try join");
+	log_line("User trying to join");
     auto token = session_.tryJoin();
     if (!token) {
         res.status = 409; // Conflict — someone's already playing
@@ -61,7 +61,8 @@ void MinitelController::join(const httplib::Request& req, httplib::Response& res
         res.set_content("{\"error\":\"session busy\"}", "application/json");
         return;
     }
-    maze_.init();
+    // maze_.init();
+	// maze_.set_pass();
     log_line("Minitel init, session joined");
     std::ostringstream json;
     json << "{\"status\":\"joined\",\"token\":\"" << *token << "\"}";
