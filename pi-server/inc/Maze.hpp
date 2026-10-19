@@ -12,6 +12,7 @@ public:
     Maze();
     ~Maze(void);
 
+	void wakeup();
 	void level_1();
 	void level_2();
 	void level_3();

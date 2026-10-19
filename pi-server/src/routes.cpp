@@ -16,7 +16,9 @@ void registerRoutes(httplib::Server& srv, Maze& maze, MinitelController& control
         const bool isPageLoad = (req.path == "/" || req.path == "/index.html");
         if (isPageLoad && !g_session.is_valid()) {
             maze.init();
-        }
+        } else if ( isPageLoad ) {
+			maze.wakeup()
+		}
         return httplib::Server::HandlerResponse::Unhandled;
     });
 

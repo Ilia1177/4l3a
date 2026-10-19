@@ -40,6 +40,10 @@ void ascii_noise(Minitel* minitel, int amount) {
     }
 }
 
+void Maze::wakeup() {
+	_minitel->printChar('\0');
+}
+
 void Maze::set_pass()
 {
     static std::random_device rd;
