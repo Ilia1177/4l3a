@@ -69,7 +69,6 @@ int main()
 					std::this_thread::sleep_for(std::chrono::seconds(1));
 					maze->game_over("Time OUT !");
 					g_session.invalidate();
-					std::this_thread::sleep_for(std::chrono::seconds(10));
 					maze->init();
 				}
 			}

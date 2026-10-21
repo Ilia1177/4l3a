@@ -74,6 +74,7 @@ void Maze::game_over(std::string msg)
 	machine_print_line_centered(_minitel, msg);
 	machine_print_line_centered(_minitel, "YOU LOSE !");
 	_level = 0;
+	std::this_thread::sleep_for(std::chrono::seconds(10));
 }
 
 void Maze::level_1() 
@@ -144,12 +145,16 @@ void Maze::init()
 	std::lock_guard<std::mutex> lock(_mtx);
 	set_pass();
 	_minitel->clearScreen();
+	_minitel->moveCursorXY(5, 5);
+	machine_print_line_centered(_minitel, "Initialisation...");
 	ascii_noise(_minitel, 20);
 	_minitel->moveCursorXY(10, 10);
 	machine_print_line_centered(_minitel, "Welcome to HAZARDOUS ÉDITORIAL LAB");
 	machine_print_line_centered(_minitel, "Get your passcode at: ");
 	_minitel->attributs(INVERSION_FOND);
+	_minitel->attributs(CLIGNOTEMENT);
 	machine_print_line_centered(_minitel, "4l3a.duckdns.org");
+	_minitel->attributs(FIXE);
 	_minitel->attributs(FOND_NORMAL);
 	_level = 0;
 }

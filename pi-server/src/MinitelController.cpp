@@ -108,8 +108,8 @@ void MinitelController::submitCode(const httplib::Request& req, httplib::Respons
     {
         if(!maze_.verify_pass(code)) {
             maze_.game_over("Wrong password...");
+            log_line("Wrong passcode submitted: '" + code + "' instead of '" + maze_.get_code() + "'");
             maze_.init();
-            log_line("Wrong passcode submitted");
             res.status = 401; // Unauthorized
             res.set_content("{\"error\":\"wrong passcode\"}", "application/json");
             return;
