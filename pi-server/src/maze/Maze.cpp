@@ -69,6 +69,7 @@ void machine_print_line_centered(Minitel* minitel, std::string line);
 void Maze::game_over(std::string msg)
 {
 	std::lock_guard<std::mutex> lock(_mtx);
+	_minitel->clearScreen();
 	ascii_noise(_minitel, 150);
 	_minitel->moveCursorXY(10, 10);
 	machine_print_line_centered(_minitel, msg);

@@ -60,8 +60,6 @@ void MinitelController::join(const httplib::Request& req, httplib::Response& res
         res.set_content("{\"error\":\"session busy\"}", "application/json");
         return;
     }
-    // maze_.init();
-	// maze_.set_pass();
     log_line("Minitel init, session joined");
     std::ostringstream json;
     json << "{\"status\":\"joined\",\"token\":\"" << *token << "\"}";
