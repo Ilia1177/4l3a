@@ -3,6 +3,15 @@
 // ---------------------------------------------------------------------------
 let sessionToken = null;
 
+function setConnected(connected) {
+  document.getElementById('joinPanel').hidden = connected;
+  document.getElementById('passcodeForm').hidden = !connected;
+  if (!connected) {
+    document.getElementById('passcodeInput').value = '';
+    document.getElementById('passcodeResult').textContent = '';
+  }
+}
+
 // ---------------------------------------------------------------------------
 // Session management
 // ---------------------------------------------------------------------------
@@ -14,6 +23,7 @@ function join() {
       if (ok) {
         sessionToken = d.token;
         document.getElementById('sessionStatus').textContent = 'Connecté au laboratoire';
+        setConnected(true);
         return true;
       } else {
         document.getElementById('sessionStatus').textContent = 'Session labo non disponible';
@@ -33,6 +43,7 @@ function callMinitel(path, options = {}) {
 function checkSession() {
   if (!sessionToken) {
     document.getElementById('sessionStatus').textContent = 'Not connected';
+    setConnected(false);
     return;
   }
 
@@ -45,6 +56,7 @@ function checkSession() {
       document.getElementById('sessionStatus').textContent =
         ok ? 'Connecté au laboratoire' : 'Session expirée';
       if (!ok) sessionToken = null; // stop treating a dead token as valid
+      setConnected(ok);
     })
     .catch(() => {
       document.getElementById('sessionStatus').textContent = 'Connexion perdue';
@@ -61,7 +73,8 @@ window.addEventListener('beforeunload', () => {
 // ---------------------------------------------------------------------------
 // Passcode submission
 // ---------------------------------------------------------------------------
-document.getElementById('passcodeBtn').addEventListener('click', () => {
+document.getElementById('passcodeForm').addEventListener('submit', (event) => {
+  event.preventDefault();
   const code = document.getElementById('passcodeInput').value;
   if (!code) return;
 

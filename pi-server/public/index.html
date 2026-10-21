@@ -10,14 +10,18 @@
   <h1>HAZARDOUS ÉDITORIAL</h1>
   <p>WELCOME TO THE HAZARDOUS LABOTORY</p>
   <p id="status">Checking status…</p>
-  <div>
-    <input type="text" id="passcodeInput" placeholder="Enter passcode" />
-    <button id="passcodeBtn">Entrer the HAZARDOUS Maze</button>
-    <p id="passcodeResult"></p>
+
+  <div id="joinPanel">
+    <button id="printBtn">Get your code</button>
+    <p>Minitel response</p><p id="printResult"></p>
   </div>
 
-  <button id="printBtn">Get your code</button>
-  <p>Minitel response</p><p id="printResult"></p>
+  <form id="passcodeForm" hidden>
+    <input type="text" id="passcodeInput" placeholder="Enter passcode" />
+    <button id="passcodeBtn" type="submit">Send</button>
+    <p id="passcodeResult"></p>
+  </form>
+
   <p>Session status</p><p id="sessionStatus">Not yet connected...</p>
 
   <script src="app.js"></script>

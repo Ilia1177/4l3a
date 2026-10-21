@@ -23,6 +23,21 @@ p {
   color: #e8dcc3;
 }
 
+[hidden] {
+  display: none !important;
+}
+
+#passcodeForm {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+#passcodeForm p {
+  flex-basis: 100%;
+}
+
 #status,
 #sessionStatus,
 #printResult,
