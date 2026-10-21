@@ -63,13 +63,15 @@ int main()
 
 	std::thread timeTicker([maze]() {
 		while (!g_signal) {
-			if(g_session.is_valid() && g_session.get_time_left() >= 0) {
+			if (g_session.is_valid()) {
 				maze->update_play_time(g_session);
-			} else if (g_session.is_valid()) {
-				maze->game_over("Time OUT !");
-				g_session.invalidate();
-				std::this_thread::sleep_for(std::chrono::seconds(10));
-				maze->init();
+				if (g_session.get_time_left() <= 0) {
+					std::this_thread::sleep_for(std::chrono::seconds(1));
+					maze->game_over("Time OUT !");
+					g_session.invalidate();
+					std::this_thread::sleep_for(std::chrono::seconds(10));
+					maze->init();
+				}
 			}
 			std::this_thread::sleep_for(std::chrono::seconds(1));
 		}
