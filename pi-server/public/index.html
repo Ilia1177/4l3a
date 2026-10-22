@@ -7,22 +7,36 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>HAZARDOUS ÉDITORIAL</h1>
-  <p>WELCOME TO THE HAZARDOUS LABOTORY</p>
-  <p id="status">Checking status…</p>
+  <header>
+    <h1>HAZARDOUS ÉDITORIAL</h1>
+    <p>WELCOME TO THE HAZARDOUS LABOTORY</p>
+    <p id="status">Checking status…</p>
+  </header>
 
-  <div id="joinPanel">
-    <button id="printBtn">Get your code</button>
-    <p>Minitel response</p><p id="printResult"></p>
-  </div>
+  <main class="layout">
+    <section class="camera-panel">
+      <h2>Live camera</h2>
+      <div class="camera-frame">
+        <img id="cameraStream" src="/camera/stream" alt="Live camera view" />
+      </div>
+      <p id="cameraStatus">Connecting…</p>
+    </section>
 
-  <form id="passcodeForm" hidden>
-    <input type="text" id="passcodeInput" placeholder="Enter passcode" />
-    <button id="passcodeBtn" type="submit">Send</button>
-    <p id="passcodeResult"></p>
-  </form>
+    <section class="control-panel">
+      <div id="joinPanel">
+        <button id="printBtn">Get your code</button>
+        <p>Minitel response</p><p id="printResult"></p>
+      </div>
 
-  <p>Session status</p><p id="sessionStatus">Not yet connected...</p>
+      <form id="passcodeForm" hidden>
+        <input type="text" id="passcodeInput" placeholder="Enter passcode" />
+        <button id="passcodeBtn" type="submit">Send</button>
+        <p id="passcodeResult"></p>
+      </form>
+
+      <p>Session status</p><p id="sessionStatus">Not yet connected...</p>
+    </section>
+  </main>
 
   <script src="app.js"></script>
 

@@ -118,6 +118,23 @@ document.getElementById('printBtn').addEventListener('click', () => {
 });
 
 // ---------------------------------------------------------------------------
+// Camera stream
+// ---------------------------------------------------------------------------
+const cameraStream = document.getElementById('cameraStream');
+const cameraStatus = document.getElementById('cameraStatus');
+
+cameraStream.addEventListener('load', () => {
+  cameraStatus.textContent = 'Live';
+});
+
+cameraStream.addEventListener('error', () => {
+  cameraStatus.textContent = 'Camera offline — retrying…';
+  setTimeout(() => {
+    cameraStream.src = '/camera/stream?t=' + Date.now();
+  }, 3000);
+});
+
+// ---------------------------------------------------------------------------
 // Server status / visit counter
 // ---------------------------------------------------------------------------
 fetch('/api/status')

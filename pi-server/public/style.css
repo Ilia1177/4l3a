@@ -2,7 +2,7 @@
 
 body {
   font-family: system-ui, -apple-system, sans-serif;
-  max-width: 40rem;
+  max-width: 72rem;
   margin: 4rem auto;
   padding: 0 1rem;
   line-height: 1.5;
@@ -23,6 +23,35 @@ p {
   color: #e8dcc3;
 }
 
+h2 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: #c9a227;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.camera-frame img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  background: #000;
+  border: 1px solid #3a3128;
+}
+
+@media (max-width: 860px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}
+
 [hidden] {
   display: none !important;
 }
@@ -41,7 +70,8 @@ p {
 #status,
 #sessionStatus,
 #printResult,
-#passcodeResult {
+#passcodeResult,
+#cameraStatus {
   font-family: ui-monospace, monospace;
   font-size: 0.9rem;
   color: #b8a67e;

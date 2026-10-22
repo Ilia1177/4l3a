@@ -1,0 +1,16 @@
+[Unit]
+Description=MJPEG camera stream (ustreamer + libcamera)
+After=network.target
+
+[Service]
+Type=simple
+User=pi
+SupplementaryGroups=video
+# Uses /usr/bin/env so it finds ustreamer whether it is installed in
+# /usr/bin (apt) or /usr/local/bin (built from source).
+ExecStart=/usr/bin/libcamerify /usr/bin/env ustreamer --host=127.0.0.1 --port=8081 --resolution=640x480 --desired-fps=12 --quality=80 --encoder=CPU --slowdown
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
