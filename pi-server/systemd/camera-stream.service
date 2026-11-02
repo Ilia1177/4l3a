@@ -1,0 +1,19 @@
+[Unit]
+Description=MJPEG camera stream bridge (rpicam-vid)
+After=network.target
+Conflicts=ustreamer.service
+
+[Service]
+Type=simple
+User=ilia
+SupplementaryGroups=video
+WorkingDirectory=/home/ilia/4l3a/pi-server
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/usr/bin/python3 /home/ilia/4l3a/pi-server/scripts/camera_stream.py
+Restart=on-failure
+RestartSec=3
+KillSignal=SIGTERM
+TimeoutStopSec=10
+
+[Install]
+WantedBy=multi-user.target
