@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Maze game — Hazardous Editorial</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <a class="back-link" href="/">← Home</a>
+    <h1>HAZARDOUS ÉDITORIAL</h1>
+    <p>WELCOME TO THE HAZARDOUS LABOTORY</p>
+    <p id="status">Checking status…</p>
+  </header>
+
+  <main class="layout">
+    <section class="camera-panel">
+      <h2>Live camera</h2>
+      <div class="camera-frame">
+        <img id="cameraStream" src="/camera/stream" alt="Live camera view" />
+      </div>
+      <p id="cameraStatus">Connecting…</p>
+    </section>
+
+    <section class="control-panel">
+      <div id="joinPanel">
+        <button id="printBtn">Get your code</button>
+        <p>Minitel response</p><p id="printResult"></p>
+      </div>
+
+      <form id="passcodeForm" hidden>
+        <input type="text" id="passcodeInput" placeholder="Enter passcode" />
+        <button id="passcodeBtn" type="submit">Send</button>
+        <p id="passcodeResult"></p>
+      </form>
+
+      <p>Session status</p><p id="sessionStatus">Not yet connected...</p>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+
+</body>
+</html>

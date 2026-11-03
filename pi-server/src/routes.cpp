@@ -1,24 +1,24 @@
 #include "routes.hpp"
-#include "SessionManager.hpp"
 
-#include <sstream>
 #include <cstdint>
+#include <sstream>
+
+#include "SessionManager.hpp"
 
 extern SessionManager g_session;
 extern std::atomic<uint64_t> g_visit_count;
 
-void registerRoutes(httplib::Server& srv, Maze& maze, MinitelController& controller)
-{
+void registerRoutes(httplib::Server& srv, Maze& maze, MinitelController& controller) {
     // Single pre-routing hook for every request.
     srv.set_pre_routing_handler([&maze](const httplib::Request& req, httplib::Response&) {
         g_visit_count.fetch_add(1, std::memory_order_relaxed);
 
-        const bool isPageLoad = (req.path == "/" || req.path == "/index.html");
-        if (isPageLoad && !g_session.is_valid()) {
+        const bool isGamePage = (req.path == "/game.html");
+        if (isGamePage && !g_session.is_valid()) {
             maze.init();
-        } else if ( isPageLoad ) { // USELESS because the session is never valid (need join)
-			maze.wakeup();
-		}
+        } else if (isGamePage && g_session.is_valid()) {
+            maze.wakeup();
+        }
         return httplib::Server::HandlerResponse::Unhandled;
     });
 

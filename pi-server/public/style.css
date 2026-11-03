@@ -103,3 +103,68 @@ button:hover {
   background: #c9a227;
   color: #14100b;
 }
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 1rem;
+  color: #b8a67e;
+  font-family: ui-monospace, monospace;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.back-link:hover,
+.back-link:focus-visible {
+  color: #c9a227;
+}
+
+body.landing {
+  min-height: 100vh;
+  max-width: none;
+  margin: 0;
+  padding: 1.5rem;
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+}
+
+.landing main {
+  width: min(100%, 48rem);
+  text-align: center;
+}
+
+.landing-link {
+  margin: 2rem 0 0;
+}
+
+.landing .banner {
+  padding: 3rem 1.5rem;
+  border: 1px solid #c9a227;
+  background: #1e1811;
+  box-shadow: 0 0 0 6px #14100b, 0 0 0 7px #3a3128;
+}
+
+.landing .banner h1 {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: clamp(2rem, 8vw, 4rem);
+  line-height: 1.1;
+}
+
+.maze-link {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid #c9a227;
+  color: #e8dcc3;
+  font-family: ui-monospace, monospace;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.maze-link:hover,
+.maze-link:focus-visible {
+  background: #c9a227;
+  color: #14100b;
+}
