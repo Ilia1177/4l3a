@@ -1,0 +1,5 @@
+Checks: >
+  clang-analyzer-*,bugprone-*,performance-*,modernize-*,readability-*,cppcoreguidelines-*,
+  -modernize-use-trailing-return-type,-readability-magic-numbers,-cppcoreguidelines-avoid-magic-numbers
+WarningsAsErrors: 'clang-analyzer-*,bugprone-*'
+HeaderFilterRegex: '^(src|inc)/'

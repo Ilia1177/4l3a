@@ -1,0 +1,18 @@
+# Include from your root CMakeLists.txt:  include(cmake/Quality.cmake)
+option(ENABLE_SANITIZERS "Build with ASan+UBSan" OFF)
+option(WARNINGS_AS_ERRORS "Treat warnings as errors" ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+function(apply_quality target)
+  if(MSVC)
+    target_compile_options(${target} PRIVATE /W4 $<$<BOOL:${WARNINGS_AS_ERRORS}>:/WX>)
+  else()
+    target_compile_options(${target} PRIVATE -Wall -Wextra -Wpedantic -Wshadow -Wconversion
+      $<$<BOOL:${WARNINGS_AS_ERRORS}>:-Werror>)
+    if(ENABLE_SANITIZERS)
+      target_compile_options(${target} PRIVATE -fsanitize=address,undefined -fno-omit-frame-pointer)
+      target_link_options(${target} PRIVATE -fsanitize=address,undefined)
+    endif()
+  endif()
+endfunction()
+# Usage: apply_quality(my_backend)  and  apply_quality(my_tests)
