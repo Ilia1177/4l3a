@@ -14,8 +14,24 @@ cmake -B build -DCMAKE_BUILD_TYPE=Release
 cmake --build build -j$(nproc)
 ```
 
-The first build downloads cpp-httplib via CMake FetchContent, so the Pi
-needs internet access at build time (not at run time).
+The first build downloads cpp-httplib and GoogleTest via CMake FetchContent,
+so the Pi needs internet access at build time (not at run time).
+
+## Tests
+
+```bash
+make test           # C++ tests (CTest) + frontend tests (node:test)
+make test-frontend  # frontend tests only
+make check          # format, lint, build, tests, sanitizers
+```
+
+Frontend tests use `node --test` and require Node 18 or newer. The vendored
+`src/minitel/Minitel1B_Hard.{h,cpp}` file is excluded from project format and
+lint checks. If `clang-tidy` is not on `PATH`, pass its path explicitly:
+
+```bash
+make CLANG_TIDY=/path/to/clang-tidy check
+```
 
 ## Run manually (for testing)
 

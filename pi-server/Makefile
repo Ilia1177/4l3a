@@ -1,8 +1,10 @@
 BUILD ?= build
-SRC_FILES := $(shell find src inc tests -name '*.cpp' -o -name '*.hpp' -o -name '*.h' 2>/dev/null)
-CPP_SOURCES := $(shell find src -name '*.cpp' 2>/dev/null)
+CLANG_TIDY ?= clang-tidy
+VENDOR_FILES := src/minitel/Minitel1B_Hard.cpp inc/Minitel1B_Hard.h
+SRC_FILES := $(filter-out $(VENDOR_FILES),$(shell find src inc tests -name '*.cpp' -o -name '*.hpp' -o -name '*.h' 2>/dev/null))
+CPP_SOURCES := $(filter-out src/minitel/Minitel1B_Hard.cpp,$(shell find src tests -name '*.cpp' 2>/dev/null))
 
-.PHONY: configure build test format format-check lint lint-cpp lint-public sanitize check
+.PHONY: configure build test test-frontend format format-check lint lint-cpp lint-frontend sanitize check
 
 configure:
 	cmake -S . -B $(BUILD) -DCMAKE_BUILD_TYPE=Debug
@@ -10,22 +12,25 @@ configure:
 build: configure
 	cmake --build $(BUILD) -j
 
-test: build
+test: build test-frontend
 	ctest --test-dir $(BUILD) --output-on-failure
+
+test-frontend:
+	node --test tests/frontend/*.test.mjs
 
 format:
 	clang-format -i $(SRC_FILES)
-	npx --yes @biomejs/biome format --write public
+	npx --yes @biomejs/biome format --write public tests/frontend
 
 format-check:
 	clang-format --dry-run --Werror $(SRC_FILES)
-	npx --yes @biomejs/biome format public
+	npx --yes @biomejs/biome format public tests/frontend
 
 lint-cpp: configure
-	clang-tidy -p $(BUILD) $(CPP_SOURCES)
+	$(CLANG_TIDY) -p $(BUILD) $(CPP_SOURCES)
 
 lint-frontend:
-	npx --yes @biomejs/biome lint public
+	npx --yes @biomejs/biome lint public tests/frontend
 
 lint: lint-cpp lint-frontend
 

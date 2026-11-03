@@ -1,13 +1,13 @@
 #include "Logger.hpp"
+
 #include <fstream>
-#include <sstream>
-#include <iostream>
 #include <iomanip>
+#include <iostream>
+#include <sstream>
 
 static std::mutex g_log_mutex;
 
-std::string timestamp_now() 
-{
+std::string timestamp_now() {
     auto t = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
     std::tm tm{};
     localtime_r(&t, &tm);
@@ -16,8 +16,7 @@ std::string timestamp_now()
     return oss.str();
 }
 
-void log_line(const std::string& line)
-{
+void log_line(const std::string& line) {
     std::lock_guard<std::mutex> lock(g_log_mutex);
     std::cout << line << std::endl;
 

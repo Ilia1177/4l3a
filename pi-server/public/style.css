@@ -132,7 +132,11 @@ p {
 }
 
 [hidden] {
-	display: none !important;
+	display: none;
+}
+
+#passcodeForm[hidden] {
+	display: none;
 }
 
 #passcodeForm {

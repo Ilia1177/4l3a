@@ -1,47 +1,43 @@
 #include "MinitelController.hpp"
-#include "Logger.hpp"
-#include <sstream>
-#include <iostream>
-#include <cstdint>
 
-MinitelController::MinitelController(SessionManager& session, Maze& maze)
+#include <cstdint>
+#include <iostream>
+#include <sstream>
+
+#include "Logger.hpp"
+
+MinitelController::MinitelController(SessionManager& session, IMaze& maze)
     : session_(session), maze_(maze) {}
 
-std::string tokenFromRequest(const httplib::Request& req) 
-{
+std::string tokenFromRequest(const httplib::Request& req) {
     std::string tok = req.get_header_value("X-Session-Token");
     return tok;
 }
 
-void MinitelController::registerRoutes(httplib::Server& svr)
-{
-    svr.Post("/api/minitel/validSession", [this](const httplib::Request& req, httplib::Response& res) {
-    	validSession(req, res);
-    });
-    
+void MinitelController::registerRoutes(httplib::Server& svr) {
+    svr.Post(
+        "/api/minitel/validSession",
+        [this](const httplib::Request& req, httplib::Response& res) { validSession(req, res); });
+
     // Join - claim a session
-    svr.Post("/api/minitel/join", [this](const httplib::Request& req, httplib::Response& res) {
-		join(req, res);
-    });
+    svr.Post("/api/minitel/join",
+             [this](const httplib::Request& req, httplib::Response& res) { join(req, res); });
 
     // Leave - release session
-    svr.Post("/api/minitel/leave", [this](const httplib::Request& req, httplib::Response& res) {
-		leave(req, res);
-    });
+    svr.Post("/api/minitel/leave",
+             [this](const httplib::Request& req, httplib::Response& res) { leave(req, res); });
 
     // Print code - validate session and print
-    svr.Get("/api/minitel/printcode", [this](const httplib::Request& req, httplib::Response& res) {
-		printcode(req, res);
-    });
+    svr.Get("/api/minitel/printcode",
+            [this](const httplib::Request& req, httplib::Response& res) { printcode(req, res); });
 
     // Hazardous lab - submit passcode
-    svr.Post("/api/minitel/hazardousLab", [this](const httplib::Request& req, httplib::Response& res) {
-		submitCode(req, res);
-    });
+    svr.Post("/api/minitel/hazardousLab",
+             [this](const httplib::Request& req, httplib::Response& res) { submitCode(req, res); });
 }
 
-void MinitelController::validSession(const httplib::Request& req, httplib::Response& res)
-{
+void MinitelController::validSession(const httplib::Request& req, httplib::Response& res) {
+    res.status = 200;
     if (!session_.validate(tokenFromRequest(req))) {
         res.status = 401;
         res.set_content("{\"status\": \"token non valide\"}", "application/json");
@@ -50,12 +46,12 @@ void MinitelController::validSession(const httplib::Request& req, httplib::Respo
     res.set_content("{\"status\": \"token valide\"}", "application/json");
 }
 
-void MinitelController::join(const httplib::Request& req, httplib::Response& res)
-{
-	log_line("User trying to join");
+void MinitelController::join(const httplib::Request&, httplib::Response& res) {
+    res.status = 200;
+    log_line("User trying to join");
     auto token = session_.tryJoin();
     if (!token) {
-        res.status = 409; // Conflict — someone's already playing
+        res.status = 409;  // Conflict — someone's already playing
         log_line("Session is running");
         res.set_content("{\"error\":\"session busy\"}", "application/json");
         return;
@@ -66,14 +62,14 @@ void MinitelController::join(const httplib::Request& req, httplib::Response& res
     res.set_content(json.str(), "application/json");
 }
 
-void MinitelController::leave(const httplib::Request& req, httplib::Response& res)
-{
+void MinitelController::leave(const httplib::Request& req, httplib::Response& res) {
+    res.status = 200;
     session_.release(tokenFromRequest(req));
     res.set_content("{\"status\":\"left\"}", "application/json");
 }
 
-void MinitelController::printcode(const httplib::Request& req, httplib::Response& res)
-{
+void MinitelController::printcode(const httplib::Request& req, httplib::Response& res) {
+    res.status = 200;
     if (!session_.validate(tokenFromRequest(req))) {
         log_line("Not your session...");
         res.status = 403;
@@ -85,8 +81,8 @@ void MinitelController::printcode(const httplib::Request& req, httplib::Response
     res.set_content("{\"status\":\"printed\"}", "application/json");
 }
 
-void MinitelController::submitCode(const httplib::Request& req, httplib::Response& res)
-{
+void MinitelController::submitCode(const httplib::Request& req, httplib::Response& res) {
+    res.status = 200;
     if (!session_.validate(tokenFromRequest(req))) {
         log_line("Not your session...");
         res.status = 403;
@@ -104,11 +100,12 @@ void MinitelController::submitCode(const httplib::Request& req, httplib::Respons
     oss << "[" << timestamp_now() << "] passcode submitted: " << code;
     log_line(oss.str());
     {
-        if(!maze_.verify_pass(code)) {
+        if (!maze_.verify_pass(code)) {
             maze_.game_over("Wrong password...");
-            log_line("Wrong passcode submitted: '" + code + "' instead of '" + maze_.get_code() + "'");
+            log_line("Wrong passcode submitted: '" + code + "' instead of '" + maze_.get_code() +
+                     "'");
             maze_.init();
-            res.status = 401; // Unauthorized
+            res.status = 401;  // Unauthorized
             res.set_content("{\"error\":\"wrong passcode\"}", "application/json");
             return;
         }
