@@ -69,61 +69,77 @@ DuckDNS is kept updated with your public IP.
 
 ## Camera stream (Raspberry Pi only)
 
-The page embeds an MJPEG stream at `/camera/stream`. Caddy proxies that path to
-`ustreamer`, which reads the CSI camera through libcamera. The C++ server does
-not touch the camera.
+The page embeds an MJPEG stream at `/camera/stream`. A small Python bridge
+(`scripts/camera_stream.py`) runs `rpicam-vid` and re-serves its MJPEG output
+over HTTP on `127.0.0.1:8081`. Caddy strips the `/camera/` prefix and proxies
+the result to the bridge. The C++ server does not touch the camera, and the old
+`ustreamer` service is no longer used.
+
+Endpoints exposed by the bridge (and therefore through Caddy):
+
+| Path | Response |
+|---|---|
+| `/camera/stream` | `multipart/x-mixed-replace` MJPEG stream |
+| `/camera/snapshot` | latest JPEG frame, or `503` before the first frame |
+| `/camera/state` | JSON status: `online`, `frames`, `clients`, `resolution`, `desired_fps`, `last_frame_age` |
 
 These steps are done **on the Pi** (the dev machine only stores the files).
 
-Install the streamer and the libcamera V4L2 wrapper:
+Requirements: `python3` and `rpicam-vid` from `rpicam-apps`. Confirm the camera
+is detected:
 
 ```bash
-sudo apt update
-sudo apt install -y ustreamer libcamera-tools libcamera-v4l2
+rpicam-vid --help >/dev/null && echo "rpicam-vid OK"
+rpicam-hello --list-cameras
 ```
 
-If `ustreamer` is not packaged for your image, build it:
+Test the bridge manually before installing the service:
 
 ```bash
-sudo apt install -y build-essential libevent-dev libjpeg62-turbo-dev libbsd-dev
-git clone --depth=1 https://github.com/pikvm/ustreamer
-cd ustreamer && make -j$(nproc) && sudo make install
+python3 scripts/camera_stream.py &
+curl -s http://127.0.0.1:8081/state
+curl -s -o /tmp/snapshot.jpg http://127.0.0.1:8081/snapshot
+file /tmp/snapshot.jpg   # JPEG image data, 640x480
 ```
 
-Test it manually before installing the service:
+The bridge only implements `GET`; `HEAD` returns `501`.
+
+Install the service (adjust `User=` and paths if they differ):
 
 ```bash
-libcamerify ustreamer \
-  --host=127.0.0.1 --port=8081 \
-  --resolution=640x480 --desired-fps=12 \
-  --quality=80 --encoder=CPU --slowdown
-curl -sI http://127.0.0.1:8081/stream
-```
-
-Install the service (adjust `User=`, or the `libcamerify`/`ustreamer` paths, if
-they differ on your system):
-
-```bash
-sudo cp systemd/ustreamer.service /etc/systemd/system/
+sudo cp systemd/camera-stream.service /etc/systemd/system/
 sudo systemctl daemon-reload
-sudo systemctl enable --now ustreamer
-systemctl status ustreamer
-journalctl -u ustreamer -f   # tail logs
+sudo systemctl enable --now camera-stream
+systemctl status camera-stream
+journalctl -u camera-stream -f   # tail logs
 ```
 
-Reload Caddy with the updated `systemd/Caddyfile`, then verify the public URL:
+`camera-stream.service` declares `Conflicts=ustreamer.service`, so the old
+streamer must not be running. Disable it if it is still enabled:
+`sudo systemctl disable --now ustreamer`.
+
+Reload Caddy with `systemd/Caddyfile`, then verify the public URL. The
+`handle_path /camera/*` directive is required so the bridge receives `/state`
+rather than `/camera/state`:
 
 ```bash
-curl -sI https://4l3a.duckdns.org/camera/stream
+curl -s  https://<host>/camera/state
+curl -s -o /tmp/snapshot.jpg -w '%{http_code} %{content_type}\n' https://<host>/camera/snapshot
+curl -s --max-time 5 https://<host>/camera/stream -o /dev/null -w '%{http_code} %{content_type}\n'
 ```
 
-`ustreamer` stays bound to `127.0.0.1:8081`; only Caddy exposes it over TLS.
-MJPEG bandwidth is high (roughly 4–10 Mbps per viewer at 640x480/12 fps), so
-lower the resolution, FPS or quality in `systemd/ustreamer.service` if needed.
+Expected: `state` reports `"online": true`; `snapshot` returns `200
+image/jpeg`; `stream` returns `200 multipart/x-mixed-replace; boundary=frame`.
+The stream request stays open until the client disconnects, so always cap it
+with `--max-time` when testing.
 
-If `libcamerify` does not work with your camera stack, check that
-`rpicam-hello --list-cameras` detects the camera; a fallback is to pipe
-`rpicam-vid -t 0 --codec mjpeg ... -o -` into an MJPEG HTTP server.
+The bridge stays bound to `127.0.0.1:8081`; only Caddy exposes it over TLS.
+Tune it with `CAMERA_WIDTH`, `CAMERA_HEIGHT`, `CAMERA_FPS` and `CAMERA_QUALITY`
+(defaults `640`, `480`, `12`, `80`). MJPEG bandwidth is high (roughly 4–10 Mbps
+per viewer at 640x480/12 fps).
+
+If `rpicam-vid` fails, `journalctl -u camera-stream` shows its stderr. Confirm
+`rpicam-hello --list-cameras` detects the sensor before changing anything else.
 
 ## Where to add your custom action
 
