@@ -1,6 +1,8 @@
 # Progress (update at end of every session)
 
 ## Current state
+- Repository workflow is defined at the root (`AGENTS.md`, `.opencode/`);
+  `pi-server/AGENTS.md` holds project-specific rules.
 - `app_core`, `server`, and `app_tests` CMake targets build with C++20 and
   warnings-as-errors.
 - GoogleTest/CTest is wired; 34 backend tests cover SessionManager,
@@ -29,9 +31,10 @@
 ## Known issues
 - Pi `rpicam-vid` currently fails with a `libcamera::Camera::generateConfiguration`
   undefined-symbol error until the rpicam packages are upgraded.
-- `make check` requires `clang-tidy` on `PATH`. On this Mac it is available at
-  `/opt/homebrew/opt/llvm/bin/clang-tidy`; run
-  `make CLANG_TIDY=/opt/homebrew/opt/llvm/bin/clang-tidy check`.
+- `make check` discovers `clang-tidy` on `PATH`, then through Homebrew LLVM
+  (`brew --prefix llvm`). If neither is available, install it or pass an
+  explicit `CLANG_TIDY=/path/to/clang-tidy`; the gate fails with an explicit
+  message instead of silently skipping the lint.
 
 ## How to build / run
 - `make build`, `make test`, `make test-frontend`, `make check`

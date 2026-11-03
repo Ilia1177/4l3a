@@ -27,7 +27,8 @@ make check          # format, lint, build, tests, sanitizers
 
 Frontend tests use `node --test` and require Node 18 or newer. The vendored
 `src/minitel/Minitel1B_Hard.{h,cpp}` file is excluded from project format and
-lint checks. If `clang-tidy` is not on `PATH`, pass its path explicitly:
+lint checks. `clang-tidy` is discovered on `PATH` or through Homebrew LLVM; if
+needed, pass its path explicitly:
 
 ```bash
 make CLANG_TIDY=/path/to/clang-tidy check

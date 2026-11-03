@@ -1,5 +1,5 @@
 BUILD ?= build
-CLANG_TIDY ?= clang-tidy
+CLANG_TIDY ?= $(shell command -v clang-tidy 2>/dev/null || { p=$$(brew --prefix llvm 2>/dev/null) && [ -n "$$p" ] && [ -x "$$p/bin/clang-tidy" ] && printf '%s/bin/clang-tidy' "$$p"; } 2>/dev/null)
 VENDOR_FILES := src/minitel/Minitel1B_Hard.cpp inc/Minitel1B_Hard.h
 SRC_FILES := $(filter-out $(VENDOR_FILES),$(shell find src inc tests -name '*.cpp' -o -name '*.hpp' -o -name '*.h' 2>/dev/null))
 CPP_SOURCES := $(filter-out src/minitel/Minitel1B_Hard.cpp,$(shell find src tests -name '*.cpp' 2>/dev/null))
@@ -27,6 +27,7 @@ format-check:
 	npx --yes @biomejs/biome format public tests/frontend
 
 lint-cpp: configure
+	@test -n "$(CLANG_TIDY)" || { echo "error: clang-tidy not found. Install it or run: make CLANG_TIDY=/path/to/clang-tidy check" >&2; exit 1; }
 	$(CLANG_TIDY) -p $(BUILD) $(CPP_SOURCES)
 
 lint-frontend:
